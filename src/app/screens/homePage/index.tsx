@@ -24,52 +24,51 @@ const actionDispatch = (dispatch: Dispatch) => ({
 });
 
 export default function HomePage() {
-  const { setPopularDishes, setNewDishes, setTopUsers} = actionDispatch(useDispatch());
-  
+  const { setPopularDishes, setNewDishes, setTopUsers } = actionDispatch(
+    useDispatch()
+  );
+
   useEffect(() => {
     // Backend server data fetch => Data
     const product = new ProductService();
-    product.getProducts({
-      page: 1,
-      limit: 4,
-      order: "productViews",
-      productCollection: ProductCollection.DISH,
-    })
-    .then((data) => {
-      setPopularDishes(data);
-    })
-    .catch((err) => console.log(err));
+    product
+      .getProducts({
+        page: 1,
+        limit: 4,
+        order: "productViews",
+        productCollection: ProductCollection.HOME,
+      })
+      .then((data) => {
+        setPopularDishes(data);
+      })
+      .catch((err) => console.log(err));
 
     product
       .getProducts({
         page: 1,
         limit: 4,
         order: "createdAt",
-    })
-    .then((data) => {
-      setNewDishes(data);
-    })
-    .catch((err) => console.log(err));
+      })
+      .then((data) => {
+        setNewDishes(data);
+      })
+      .catch((err) => console.log(err));
 
-
-     const member = new MemberService();
-     member
+    const member = new MemberService();
+    member
       .getTopUsers()
       .then((data) => setTopUsers(data))
       .catch((err) => console.log(err));
-
-
-
   }, []);
 
   return (
-  <div className={"homepage"}>
-    <Statistics />
-    <PopularDishes />
-    <NewDishes />
-    <Advertisement />
-    <ActiveUsers />
-    <Events />
-  </div>
+    <div className={"homepage"}>
+      <Statistics />
+      <PopularDishes />
+      <NewDishes />
+      <Advertisement />
+      <ActiveUsers />
+      <Events />
+    </div>
   );
 }
