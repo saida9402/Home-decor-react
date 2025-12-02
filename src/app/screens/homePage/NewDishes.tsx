@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Container, Stack } from "@mui/material";
 import  AspectRatio  from "@mui/joy/AspectRatio";
 import Card from '@mui/joy/Card';
