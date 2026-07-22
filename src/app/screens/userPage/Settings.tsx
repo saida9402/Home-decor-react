@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import Button from "@mui/material/Button";
 import { useGlobals } from "../../hooks/useGlobals";
 import { useState } from "react";
@@ -53,12 +53,12 @@ export function Settings() {
   const handleSubmitButton = async () => {
     try {
       if(!authMember) throw new Error(Messages.error2);
-      if (
-        memberUpdateInput.memberNick === "" ||
-        memberUpdateInput.memberPhone === "" ||
-        memberUpdateInput.memberAddress === "" ||
-        memberUpdateInput.memberDesc === "" 
-      ) {
+      // Only memberNick and memberPhone are required by the Member schema.
+      // memberAddress and memberDesc are optional there, so leaving one blank
+      // must not block saving the rest of the profile.
+      const nick = memberUpdateInput.memberNick?.trim() ?? "";
+      const phone = memberUpdateInput.memberPhone?.trim() ?? "";
+      if (nick === "" || phone === "") {
           throw new Error(Messages.error3);
         }
 
@@ -99,7 +99,7 @@ export function Settings() {
           <p>JPG, JPEG, PNG formats only!</p>
           <div className={"up-del-box"}>
             <Button component="label" onChange={handleImageViewer}>
-              <CloudDownloadIcon />
+              <CloudUploadOutlinedIcon />
               <input type="file" hidden />
             </Button>
           </div>

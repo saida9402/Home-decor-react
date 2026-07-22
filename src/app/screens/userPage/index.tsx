@@ -1,9 +1,12 @@
 import { Box, Container, Stack } from "@mui/material";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import YouTubeIcon from "@mui/icons-material/YouTube";
 import { useHistory } from "react-router-dom";
+
+import {
+  FacebookGlyph,
+  InstagramGlyph,
+  TelegramGlyph,
+  YouTubeGlyph,
+} from "./SocialIcons";
 
 import { Settings } from "./Settings";
 import "../../../css/userPage.css";
@@ -27,7 +30,7 @@ export default function UserPage() {
         <Stack className="my-page-frame">
           <Stack className="my-page-left">
             <Box display="flex" flexDirection="column">
-              <Box className="menu-name">Modify Member Details</Box>
+              <Box className="menu-name">Member details</Box>
               <Box className="menu-content">
                 <Settings />
               </Box>
@@ -36,7 +39,7 @@ export default function UserPage() {
 
           <Stack className="my-page-right">
             <Box className="order-info-box">
-              <Box display="flex" flexDirection="column" alignItems="center">
+              <Box className="profile-head">
                 <div className="order-user-img">
                   <img
                     src={
@@ -45,35 +48,41 @@ export default function UserPage() {
                         : "/icons/default-user.svg"
                     }
                     className="order-user-avatar"
+                    alt=""
                   />
                   <div className="order-user-icon-box">
                     <img
                       src={
-                        authMember.memberType === MemberType.RESTAURANT
+                        authMember.memberType === MemberType.SELLER
                           ? "/icons/restaurant.svg"
                           : "/icons/user-badge.svg"
                       }
+                      alt=""
                     />
                   </div>
                 </div>
 
                 <span className="order-user-name">{authMember.memberNick}</span>
                 <span className="order-user-prof">{authMember.memberType}</span>
-                <span className="order-user-prof">
-                  {authMember.memberAddress || "no address"}
+              </Box>
+
+              <Box className="profile-meta">
+                <span className="meta-label">Address</span>
+                <span className="meta-value">
+                  {authMember.memberAddress || "No address on file"}
                 </span>
               </Box>
 
-              <Box className="user-media-box">
-                <FacebookIcon />
-                <InstagramIcon />
-                <TelegramIcon />
-                <YouTubeIcon />
-              </Box>
-
               <p className="user-desc">
-                {authMember.memberDesc || "no description"}
+                {authMember.memberDesc || "No description yet."}
               </p>
+
+              <Box className="user-media-box">
+                <FacebookGlyph />
+                <InstagramGlyph />
+                <TelegramGlyph />
+                <YouTubeGlyph />
+              </Box>
             </Box>
 
             <Box className="order-history-box">

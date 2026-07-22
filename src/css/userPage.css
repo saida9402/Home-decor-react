@@ -1,21 +1,14 @@
+/* ============================================================
+   MY PAGE
+   Tokens come from navbar.css :root. Card skin, type scale and
+   button skin match the homepage and products page exactly.
+   ============================================================ */
+
 .user-page {
 	width: 100%;
 	height: auto;
 	display: flex;
-	background: #f8f8ff;
-}
-
-.user-page .css-heg063-MuiTabs-flexContainer {
-	flex-direction: column;
-}
-
-.user-page .css-mn3ro6-MuiTabs-indicator {
-	height: 0px;
-	width: 0px;
-}
-
-.user-page .css-1ujnqem-MuiTabs-root {
-	width: 100%;
+	background: var(--surface);
 }
 
 .user-page .my-page-frame {
@@ -23,79 +16,90 @@
 	height: auto;
 	display: flex;
 	flex-direction: row;
-	padding: 50px 0 50px 0;
+	align-items: flex-start;
+	gap: 40px;
+	padding: 88px 0 104px;
 }
 
 .my-page-frame .my-page-left {
-	width: 70%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
-}
-
-.my-page-left .menu-name {
-	width: 100%;
-	height: 70px;
-	display: flex;
-	justify-content: center;
-	border-bottom: 1px solid #f8f8ff;
-	font-family: 'Poppins';
-	font-style: normal;
-	font-weight: 600;
-	font-size: 45px;
-	color: #f8f8ff;
-}
-
-.my-page-left .menu-content {
-	margin-top: 10px;
-	width: 100%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
-}
-
-.my-page-left .write-content {
-	margin-top: 10px;
-	width: 100%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
-}
-
-.user-page .menu-content .post-content {
-	margin-top: 10px;
-	width: 100%;
+	flex: 1 1 0;
+	min-width: 0;
 	height: auto;
 	display: flex;
 	flex-direction: column;
 }
 
 .my-page-frame .my-page-right {
-	margin-left: 30px;
-	width: 30%;
+	flex: 0 0 360px;
+	min-width: 0;
 	height: auto;
 	display: flex;
 	flex-direction: column;
+	gap: 26px;
+	margin-left: 0;
 }
 
-.user-page .order-info-box {
-	position: relative;
-	padding: 20px;
+/* --- section heading -------------------------------------------
+   was Poppins 45px in #f8f8ff — white on a near-white ground, so
+   it was invisible rather than merely off-system */
+
+.my-page-left .menu-name {
+	width: 100%;
+	height: auto;
+	display: block;
+	margin: 0 0 34px;
+	padding: 0;
+	border-bottom: none;
+	font-family: var(--font-serif);
+	font-style: normal;
+	font-weight: 300;
+	font-size: 32px;
+	line-height: 1.15;
+	letter-spacing: 1.2px;
+	color: var(--ink);
+}
+
+.my-page-left .menu-name::after {
+	display: block;
+	content: "";
+	margin: 16px 0 0;
+	width: 26px;
+	border-bottom: 1px solid var(--accent);
+}
+
+.my-page-left .menu-content {
+	margin-top: 0;
 	width: 100%;
 	height: auto;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	background: #f6f2ff;
-	box-shadow: 15px 14px 4px rgba(0, 0, 0, 0.25), inset -1px 0px 16px 13px rgb(24 23 112 / 20%);
-	border-radius: 16px;
 }
 
-.user-page .order-info-box .settings-btn {
-	position: absolute;
-	top: 6%;
-	right: 19%;
-	cursor: pointer;
+/* ============================================================
+   PROFILE CARD
+   ============================================================ */
+
+.user-page .order-info-box {
+	position: relative;
+	padding: 30px 28px;
+	width: 100%;
+	box-sizing: border-box;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 2px;
+	box-shadow: none;
+}
+
+.user-page .order-info-box .profile-head {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-bottom: 26px;
+	border-bottom: 1px solid var(--line);
 }
 
 .user-page .order-info-box .order-user-img {
@@ -106,95 +110,139 @@
 }
 
 .user-page .order-info-box .order-user-img .order-user-avatar {
-	width: 150px;
-	height: 150px;
-	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-	border-radius: 37px;
+	width: 132px;
+	height: 132px;
+	object-fit: cover;
+	object-position: center;
+	background: var(--surface-alt);
+	border: 1px solid var(--line);
+	border-radius: 2px;
+	filter: none;
 }
 
+/* the seller badge — now reachable, see MemberType.SELLER */
 .user-page .order-info-box .order-user-icon-box {
 	position: absolute;
-	padding: 5px;
-	width: 37px;
-	height: 37px;
-	top: 81%;
-	right: 0;
+	right: -9px;
+	bottom: -9px;
+	top: auto;
+	padding: 0;
+	width: 30px;
+	height: 30px;
 	display: flex;
-	background: rgb(209 209 209 / 33%);
-	border-radius: 37px;
+	align-items: center;
+	justify-content: center;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 2px;
+}
+
+.user-page .order-info-box .order-user-icon-box img {
+	width: 15px;
+	height: 15px;
+	filter: brightness(0) opacity(0.5);
 }
 
 .user-page .order-info-box .order-user-name {
-	margin-top: 10px;
-	font-family: 'Commissioner';
+	margin-top: 20px;
+	font-family: var(--font-serif);
 	font-style: normal;
-	font-weight: 500;
+	font-weight: 300;
 	font-size: 28px;
-	line-height: 36px;
-	color: #08090d;
+	line-height: 1.2;
+	letter-spacing: 0.4px;
+	color: var(--ink);
+	text-align: center;
+	overflow-wrap: anywhere;
 }
 
 .user-page .order-info-box .order-user-prof {
-	font-family: 'Commissioner';
+	margin-top: 10px;
+	font-family: var(--font-sans);
 	font-style: normal;
 	font-weight: 500;
-	font-size: 20px;
-	line-height: 36px;
-	color: #a1a1a1;
+	font-size: 11px;
+	line-height: 1.4;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	color: var(--accent);
 }
 
-.user-page .order-info-box .user-media-box {
-	margin-top: 10px;
-	width: 60%;
+.user-page .order-info-box .profile-meta {
 	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+	flex-direction: column;
+	gap: 7px;
+	padding: 22px 0;
+	border-bottom: 1px solid var(--line);
+}
+
+.user-page .order-info-box .profile-meta .meta-label {
+	font-family: var(--font-sans);
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1.4;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	color: var(--ink-muted);
+}
+
+.user-page .order-info-box .profile-meta .meta-value {
+	font-family: var(--font-sans);
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--ink);
+	overflow-wrap: anywhere;
 }
 
 .user-page .order-info-box .user-desc {
-	margin-top: 30px;
-	width: 90%;
-	display: flex;
-	justify-content: center;
-	font-family: 'DM Sans';
+	margin: 0;
+	padding: 22px 0 0;
+	width: 100%;
+	display: block;
+	font-family: var(--font-sans);
 	font-style: normal;
 	font-weight: 400;
-	font-size: 16px;
-	line-height: 24px;
-	color: #616164;
+	font-size: 13px;
+	line-height: 1.7;
+	letter-spacing: 0.1px;
+	color: var(--ink-muted);
+	overflow-wrap: anywhere;
 }
 
-.user-page .order-info-box .css-1e3kzd4-MuiButtonBase-root-MuiButton-root {
-	margin-top: 15px;
-	min-width: 90%;
-	height: 44px;
-	text-transform: capitalize;
-	font-style: normal;
-	font-weight: 600;
-	font-size: 25px;
-	line-height: 38px;
-	color: #f8f8ff;
+.user-page .order-info-box .user-media-box {
+	margin-top: 24px;
+	padding-top: 22px;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	gap: 20px;
+	border-top: 1px solid var(--line);
 }
 
-.user-page .menu-box img {
-	width: 25px;
+/* hand-drawn hairline glyphs; colour inherited via currentColor */
+.user-page .order-info-box .user-media-box svg {
+	color: var(--ink-muted);
+	cursor: pointer;
+	transition: color var(--ease);
 }
 
-.user-page .menu-box span {
-	margin-left: 30px;
-	font-family: 'Poppins';
-	font-style: normal;
-	font-weight: 600;
-	font-size: 25px;
-	line-height: 38px;
-	color: #000000;
+.user-page .order-info-box .user-media-box svg:hover {
+	color: var(--accent);
 }
+
+/* ============================================================
+   SETTINGS FORM — quiet inputs, hairline borders, --accent only
+   on focus
+   ============================================================ */
 
 .user-page .settings {
-	width: 95%;
+	width: 100%;
 	height: auto;
 	display: flex;
 	flex-direction: column;
+	gap: 22px;
 }
 
 .user-page .settings .input-frame {
@@ -203,10 +251,13 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	gap: 22px;
+	flex-wrap: wrap;
 }
 
 .user-page .settings .short-input {
-	width: 49%;
+	flex: 1 1 220px;
+	min-width: 0;
 	height: auto;
 	display: flex;
 	flex-direction: column;
@@ -214,124 +265,539 @@
 
 .user-page .settings .long-input {
 	width: 100%;
+	min-width: 0;
 	height: auto;
 	display: flex;
 	flex-direction: column;
 }
+
 .user-page .settings .spec-label {
-	font-family: 'Source Serif Pro';
+	margin-bottom: 9px;
+	font-family: var(--font-sans);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1.4;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	color: var(--ink-muted);
+}
+
+.user-page .settings .spec-input,
+.user-page .settings .spec-textarea {
+	position: relative;
+	margin-top: 0;
+	width: 100%;
+	box-sizing: border-box;
+	background: transparent;
+	border: 1px solid var(--line);
+	border-radius: 2px;
+	box-shadow: none;
+	outline: none;
+	font-family: var(--font-sans);
 	font-style: normal;
 	font-weight: 400;
-	font-size: 16px;
-	line-height: 25px;
-	color: #f8f8ff;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--ink);
+	transition: border-color var(--ease);
 }
 
 .user-page .settings .spec-input {
-	position: relative;
-	margin-top: 10px;
-	padding-left: 20px;
-	width: 100%;
-	height: 54px;
-	border: none;
-	background: #f7f7f7;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 5px;
-	font-family: 'GT Walsheim Pro';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 15px;
-	line-height: 26px;
-	color: #4f547b;
+	padding: 0 14px;
+	height: 46px;
 }
 
 .user-page .settings .spec-textarea {
-	position: relative;
-	margin-top: 10px;
-	padding: 20px;
-	width: 100%;
-	height: 200px;
-	border: none;
-	background: #f7f7f7;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 5px;
-	font-family: 'GT Walsheim Pro';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 15px;
-	line-height: 26px;
-	color: #4f547b;
+	padding: 14px;
+	height: 168px;
+	resize: vertical;
 }
 
+.user-page .settings .spec-input::placeholder,
+.user-page .settings .spec-textarea::placeholder {
+	color: var(--ink-muted);
+	opacity: 0.72;
+}
+
+.user-page .settings .spec-input:focus,
+.user-page .settings .spec-textarea:focus {
+	border-color: var(--accent);
+}
+
+/* --- image upload ---------------------------------------------- */
+
 .user-page .settings .member-media-frame {
-	margin-top: 25px;
+	margin-top: 0;
 	position: relative;
-	padding: 10px;
+	padding: 20px;
 	width: 100%;
+	box-sizing: border-box;
 	height: auto;
 	display: flex;
-	border-radius: 5px;
+	align-items: center;
+	gap: 20px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 2px;
 }
 
 .user-page .settings .member-media-frame .mb-image {
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
+	flex: 0 0 auto;
+	width: 82px;
+	height: 82px;
+	object-fit: cover;
+	object-position: center;
+	background: var(--surface-alt);
+	border: 1px solid var(--line);
+	border-radius: 2px;
 }
 
-.user-page .settings .media_change-box {
+.user-page .settings .media-change-box {
 	position: relative;
-	margin-left: 20px;
+	margin-left: 0;
+	min-width: 0;
 	width: auto;
-	height: 100%;
+	height: auto;
 	display: flex;
 	flex-direction: column;
+	align-items: flex-start;
 }
 
 .user-page .settings .media-change-box span {
-	font-family: 'GT Walsheim Pro';
+	font-family: var(--font-sans);
 	font-style: normal;
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 18px;
-	color: #140342;
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1.4;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	color: var(--ink);
 }
 
 .user-page .settings .media-change-box p {
-	margin: 10px 0px 14px 0px;
-	font-family: 'GT Walsheim Pro';
+	margin: 8px 0 12px;
+	font-family: var(--font-sans);
 	font-style: normal;
 	font-weight: 400;
-	font-size: 14px;
-	line-height: 16px;
-	color: #4f547b;
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--ink-muted);
 }
 
 .user-page .settings .up-del-box {
 	position: relative;
-	width: 37px;
-	height: 37px;
+	width: 38px;
+	height: 38px;
 	display: flex;
-	background: #cbcbcb;
-	border-radius: 8px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 2px;
 	justify-content: center;
 	align-items: center;
+	transition: border-color var(--ease);
 }
 
+.user-page .settings .up-del-box:hover {
+	border-color: var(--ink-muted);
+}
+
+.user-page .settings .up-del-box .MuiButton-root {
+	min-width: 0;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	background: transparent;
+	box-shadow: none;
+	color: var(--ink-muted);
+	transition: color var(--ease);
+}
+
+.user-page .settings .up-del-box .MuiButton-root:hover {
+	background: transparent;
+	color: var(--accent);
+}
+
+.user-page .settings .up-del-box .MuiSvgIcon-root {
+	font-size: 17px;
+}
+
+/* was `background: red` on a visually hidden input */
 .user-page .settings .up-del-box input {
 	position: absolute;
-	width: 20px;
-	height: 16px;
+	width: 1px;
+	height: 1px;
 	padding: 0;
-	background: red;
 	margin: -1px;
 	overflow: hidden;
 	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
 	border: 0;
 }
+
+/* --- save ------------------------------------------------------- */
 
 .user-page .settings .save-box {
 	display: flex;
 	justify-content: flex-end;
-	margin-top: 25px;
+	margin-top: 4px;
+}
+
+.user-page .settings .save-box .MuiButton-root {
+	min-width: 0;
+	padding: 11px 30px;
+	background: var(--ink);
+	border: 1px solid var(--ink);
+	border-radius: 2px;
+	box-shadow: none;
+	font-family: var(--font-sans);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1.4;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	color: var(--surface);
+	transition: background-color var(--ease), border-color var(--ease);
+}
+
+.user-page .settings .save-box .MuiButton-root:hover {
+	background: var(--accent);
+	border-color: var(--accent);
+	box-shadow: none;
+}
+
+/* ============================================================
+   ORDER HISTORY — scrollable, searchable
+   ============================================================ */
+
+.user-page .order-history-box {
+	width: 100%;
+}
+
+.user-page .order-history {
+	width: 100%;
+	padding: 24px 22px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 2px;
+}
+
+.user-page .order-history .history-head {
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--line);
+}
+
+.user-page .order-history .history-title,
+.user-page .order-history .history-count {
+	font-family: var(--font-sans);
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1.4;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+}
+
+.user-page .order-history .history-title {
+	color: var(--ink);
+}
+
+.user-page .order-history .history-count {
+	flex: 0 0 auto;
+	color: var(--ink-muted);
+}
+
+/* --- search ------------------------------------------------------ */
+
+.user-page .order-history .history-search {
+	margin-top: 16px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 9px;
+	padding: 0 12px;
+	height: 40px;
+	box-sizing: border-box;
+	background: transparent;
+	border: 1px solid var(--line);
+	border-radius: 2px;
+	transition: border-color var(--ease);
+}
+
+.user-page .order-history .history-search:focus-within {
+	border-color: var(--accent);
+}
+
+.user-page .order-history .history-search-icon {
+	flex: 0 0 auto;
+	font-size: 15px;
+	color: var(--ink-muted);
+}
+
+.user-page .order-history .history-search-input {
+	flex: 1 1 auto;
+	min-width: 0;
+	height: 100%;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: var(--font-sans);
+	font-size: 13px;
+	letter-spacing: 0.2px;
+	color: var(--ink);
+}
+
+.user-page .order-history .history-search-input::placeholder {
+	color: var(--ink-muted);
+	opacity: 0.72;
+}
+
+/* --- scroll region ----------------------------------------------- */
+
+.user-page .order-history .history-scroll {
+	margin-top: 6px;
+	max-height: 420px;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	/* Firefox */
+	scrollbar-width: thin;
+	scrollbar-color: var(--line) transparent;
+}
+
+.user-page .order-history .history-scroll::-webkit-scrollbar {
+	width: 6px;
+}
+
+.user-page .order-history .history-scroll::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.user-page .order-history .history-scroll::-webkit-scrollbar-thumb {
+	background-color: var(--line);
+	border-radius: 3px;
+}
+
+.user-page .order-history .history-scroll::-webkit-scrollbar-thumb:hover {
+	background-color: var(--ink-muted);
+}
+
+/* --- row ---------------------------------------------------------- */
+
+.user-page .order-history .history-row {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 14px;
+	padding: 16px 0;
+	border-bottom: 1px solid var(--line);
+}
+
+.user-page .order-history .history-row:last-child {
+	border-bottom: none;
+}
+
+.user-page .order-history .history-thumb {
+	flex: 0 0 auto;
+	width: 48px;
+	height: 48px;
+	overflow: hidden;
+	background: var(--surface-alt);
+	border: 1px solid var(--line);
+	border-radius: 2px;
+}
+
+.user-page .order-history .history-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+
+.user-page .order-history .history-main {
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.user-page .order-history .history-name {
+	font-family: var(--font-serif);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--ink);
+	/* CSS clamp, not a JS slice */
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	overflow-wrap: anywhere;
+}
+
+.user-page .order-history .history-meta {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	font-family: var(--font-sans);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 11.5px;
+	line-height: 1.5;
+	letter-spacing: 0.3px;
+	color: var(--ink-muted);
+}
+
+.user-page .order-history .history-side {
+	flex: 0 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 5px;
+	text-align: right;
+}
+
+.user-page .order-history .history-total {
+	font-family: var(--font-sans);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	letter-spacing: 0.3px;
+	font-variant-numeric: tabular-nums;
+	color: var(--ink);
+}
+
+/* status told by a letterspaced label, not a coloured block */
+.user-page .order-history .history-status {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 9.5px;
+	letter-spacing: 1.4px;
+	text-transform: uppercase;
+	padding-left: 8px;
+	border-left: 1px solid var(--line);
+	color: var(--ink-muted);
+}
+
+.user-page .order-history .history-status.is-PROCESS {
+	color: var(--accent);
+}
+
+/* --- explicit states ---------------------------------------------- */
+
+.user-page .order-history .history-state {
+	margin-top: 16px;
+	padding: 44px 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 9px;
+	text-align: center;
+	background: var(--surface-alt);
+	border: 1px solid var(--line);
+	border-radius: 2px;
+}
+
+.user-page .order-history .history-state-title {
+	font-family: var(--font-serif);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 19px;
+	line-height: 1.3;
+	color: var(--ink);
+}
+
+.user-page .order-history .history-state-text {
+	margin: 0;
+	max-width: 260px;
+	font-family: var(--font-sans);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 12.5px;
+	line-height: 1.6;
+	color: var(--ink-muted);
+	overflow-wrap: anywhere;
+}
+
+.user-page .order-history .history-clear {
+	margin-top: 6px;
+	padding: 8px 18px;
+	-webkit-appearance: none;
+	appearance: none;
+	box-sizing: border-box;
+	background: transparent;
+	border: 1px solid var(--line);
+	border-radius: 2px;
+	cursor: pointer;
+	font-family: var(--font-sans);
+	font-weight: 500;
+	font-size: 11px;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	color: var(--ink-muted);
+	transition: border-color var(--ease), color var(--ease);
+}
+
+.user-page .order-history .history-clear:hover {
+	border-color: var(--ink);
+	color: var(--ink);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+	.user-page .my-page-frame {
+		flex-direction: column;
+		gap: 34px;
+		padding: 64px 0 80px;
+	}
+
+	.my-page-frame .my-page-right {
+		flex: 1 1 auto;
+		width: 100%;
+	}
+}
+
+@media (max-width: 560px) {
+	.user-page .my-page-frame {
+		padding: 48px 0 64px;
+	}
+
+	.my-page-left .menu-name {
+		font-size: 26px;
+	}
+
+	.user-page .settings .input-frame {
+		flex-direction: column;
+		gap: 22px;
+	}
+
+	.user-page .settings .member-media-frame {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.user-page .order-history .history-row {
+		flex-wrap: wrap;
+	}
+
+	.user-page .order-history .history-side {
+		flex: 1 1 100%;
+		align-items: flex-start;
+		text-align: left;
+		padding-left: 62px;
+	}
 }
