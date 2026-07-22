@@ -48,7 +48,7 @@ class MemberService {
 
             const member: Member = result.data.member;
             console.log("member:", member);
-            localStorage.setItem("memberData:", JSON.stringify(member));
+            localStorage.setItem("memberData", JSON.stringify(member));
 
             return member;
         } catch (err) {
@@ -67,7 +67,7 @@ class MemberService {
 
             const member: Member = result.data.member;
             console.log("member:", member);
-            localStorage.setItem("memberData:", JSON.stringify(member));
+            localStorage.setItem("memberData", JSON.stringify(member));
 
             return member;
         } catch (err) {

@@ -34,7 +34,7 @@ const useBasket = () => {
                     (item: CartItem) => item._id !== input._id
                 );
                 setCartItems(cartUpdate);
-                localStorage.setItem("cartData:", JSON.stringify(cartUpdate));
+                localStorage.setItem("cartData", JSON.stringify(cartUpdate));
             } else {
                 const cartUpdate = cartItems.map((item: CartItem) => 
                     item._id === input._id
@@ -42,7 +42,7 @@ const useBasket = () => {
                         : item
                 );
                 setCartItems(cartUpdate);
-                localStorage.setItem("cartData:", JSON.stringify(cartUpdate));
+                localStorage.setItem("cartData", JSON.stringify(cartUpdate));
             }
         };
 
@@ -51,7 +51,7 @@ const useBasket = () => {
                 (item: CartItem) => item._id !== input._id
             );
             setCartItems(cartUpdate);
-            localStorage.setItem("cartData:", JSON.stringify(cartUpdate));
+            localStorage.setItem("cartData", JSON.stringify(cartUpdate));
         };
 
         const onDeleteAll = () => {
