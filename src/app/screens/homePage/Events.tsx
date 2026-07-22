@@ -10,7 +10,7 @@ export default function Events() {
     <div className={"events-frame"}>
       <Stack className={"events-main"}>
         <Box className={"events-text"}>
-          <span className={"category-title"}>Events</span>
+          <span className={"category-title"}>The Journal</span>
         </Box>
 
         <Swiper

@@ -4,15 +4,16 @@ import Card from '@mui/joy/Card';
 import CardOverflow  from "@mui/joy/CardOverflow";
 import Typography from '@mui/joy/Typography';
 import { CssVarsProvider } from "@mui/joy/styles";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import Divider  from "../../components/divider";
 
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
+import { useHistory } from "react-router-dom";
 import { retrieveNewDishes } from "./selector";
 import { Product } from "../../../lib/types/product";
+import { CartItem } from "../../../lib/types/search";
 import { serverApi } from "../../../lib/config";
-import { ProductCollection } from "../../../lib/enums/product.enum";
 
 /** REDUX SLICE & SELECTOR **/
 const newDishesRetriever = createSelector(
@@ -20,47 +21,86 @@ const newDishesRetriever = createSelector(
     (newDishes) => ({ newDishes })
 );
 
-export default function NewDishes() {
+interface NewDishesProps {
+    onAdd: (item: CartItem) => void;
+}
+
+export default function NewDishes(props: NewDishesProps) {
+    const { onAdd } = props;
     const  { newDishes } = useSelector(newDishesRetriever);
+    const history = useHistory();
+
+    /** HANDLERS **/
+    const choseDishHandler = (id: string) => {
+        history.push(`/products/${id}`);
+    };
 
     console.log("newDishes:", newDishes);
     return (
         <div className="new-products-frame">
             <Container>
                 <Stack className={"main"}>
-                    <Box className="category-title">Fresh Menu</Box>
+                    <Box className="category-title">New Arrivals</Box>
                     <Stack className="cards-frame">
                        <CssVarsProvider>
                         {newDishes.length !== 0 ? ( 
                             newDishes.map((product: Product ) => {
                             const imagePath = `${serverApi}/${product.productImages[0]}`;
-                            const sizeVolume = 
-                            product.productCollection === ProductCollection.DRINK 
-                            ? product.productVolume + "l" 
-                            : product.productSize + " SIZE";
+                            const sizeVolume =
+                            product.productSize || product.productVolume || "";
                             return (
-                                <Card key={product._id} variant="outlined" className={"card"}>
-                                    <CardOverflow>
+                                <Card
+                                  key={product._id}
+                                  variant="outlined"
+                                  className={"card"}
+                                  onClick={() => choseDishHandler(product._id)}
+                                >
+                                    <CardOverflow className="card-media">
                                         <div className="product-sale">{sizeVolume}</div>
-                                        <AspectRatio ratio="1">
+                                        {/* plain <button>: a Material Button here
+                                            would resolve its styles against the Joy
+                                            theme supplied by the CssVarsProvider
+                                            above and throw on palette.grey[300] */}
+                                        <button
+                                          type="button"
+                                          className={"shop-btn"}
+                                          aria-label={`Add ${product.productName} to basket`}
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            onAdd({
+                                              _id: product._id,
+                                              quantity: 1,
+                                              name: product.productName,
+                                              price: product.productPrice,
+                                              image: product.productImages[0],
+                                            });
+                                          }}
+                                        >
+                                          <img
+                                            src={"/icons/shopping-cart.svg"}
+                                            alt=""
+                                            style={{ display: "flex" }}
+                                          />
+                                        </button>
+                                        <AspectRatio ratio="1" className={"media-well"}>
                                             <img src={imagePath} alt="" />
                                         </AspectRatio>
                                     </CardOverflow>
 
                                     <CardOverflow variant="soft" className="product-detail">
                                         <Stack className="info">
-                                            <Stack flexDirection={"row"}>
+                                            <Stack className="name-row" flexDirection={"row"} alignItems={"center"}>
                                                 <Typography className={"title"}>
                                                     {product.productName}
                                                 </Typography>
-                                                <Divider width="2" height="24" bg="#d9d9d9"  />
+                                                <Divider width="1" height="16" bg="var(--line)"  />
                                                 <Typography className={"price"}>${product.productPrice}</Typography>
                                             </Stack>
                                             <Stack>
                                                 <Typography className={"views"}>
                                                     {product.productViews}
-                                                    <VisibilityIcon
-                                                     sx={{ fontSize: 20, marginLeft: "5px"}}
+                                                    <VisibilityOutlinedIcon
+                                                     sx={{ fontSize: 15, marginLeft: "5px"}}
                                                     />
                                                 </Typography>
                                             </Stack>

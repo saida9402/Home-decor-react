@@ -83,11 +83,15 @@ function App() {
       )}
 
       <Switch>
-        <Route path="/products" component={ProductsPage} />
+        <Route path="/products">
+          <ProductsPage onAdd={onAdd} />
+        </Route>
         <Route path="/orders" component={OrdersPage} />
         <Route path="/member-page" component={UserPage} />
         <Route path="/help" component={HelpPage} />
-        <Route path="/" component={HomePage} />
+        <Route path="/">
+          <HomePage onAdd={onAdd} />
+        </Route>
       </Switch>
 
       <Footer />

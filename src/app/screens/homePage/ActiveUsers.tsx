@@ -21,7 +21,7 @@ export default function ActiveUsers() {
         <div className={"active-users-frame"}>
             <Container>
                 <Stack className={"main"}>
-                    <Box className={"category-title"}>Active Users</Box>
+                    <Box className={"category-title"}>Our Community</Box>
                     <Stack className={"cards-frame"}>
                         <CssVarsProvider>
                           {topUsers.length !== 0 ? (
@@ -33,8 +33,8 @@ export default function ActiveUsers() {
                                         variant="outlined" 
                                         className={"card"}
                                     >
-                                    <CardOverflow>
-                                        <AspectRatio ratio="1">
+                                    <CardOverflow className={"card-media"}>
+                                        <AspectRatio ratio="1" className={"media-well"}>
                                             <img src={imagePath} alt="" />
                                         </AspectRatio>
                                     </CardOverflow>
@@ -52,7 +52,9 @@ export default function ActiveUsers() {
                                 );
                             })
                         ) : (
-                            <Box className="no-data">No Active Users!</Box>
+                            <Box className="no-data">
+                                Our community is just getting started.
+                            </Box>
                         )}  
                         </CssVarsProvider>
                     </Stack>
