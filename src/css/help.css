@@ -181,4 +181,46 @@
   color: #4f547b;
 }
 
+/* ============================================================
+   CONTACT — "not yet available" notice.
+   Shown after submit is intercepted; there is no contact endpoint
+   on the backend, so nothing is transmitted.
+   ============================================================ */
+
+.help-page .admin-letter-frame .contact-notice {
+  margin-top: 30px;
+  padding: 18px 20px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--surface-alt);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+  border-radius: 2px;
+}
+
+.help-page .admin-letter-frame .contact-notice .contact-notice-title {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.help-page .admin-letter-frame .contact-notice .contact-notice-text {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.1px;
+  color: var(--ink-muted);
+}
+
 /* done */

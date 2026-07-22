@@ -15,10 +15,21 @@ import { terms } from "../../../lib/data/terms";
 
 export default function HelpPage() {
   const [value, setValue] = React.useState("1");
+  const [contactNotice, setContactNotice] = React.useState(false);
 
   /** HANDLERS **/
   const handleChange = (e: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+  };
+
+  /**
+   * The backend exposes no contact/email endpoint, so there is nowhere to
+   * send this. Stop the browser's native POST — which resolved to the
+   * current URL and produced "Cannot POST /help" — and say so plainly.
+   */
+  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setContactNotice(true);
   };
 
   return (
@@ -78,8 +89,7 @@ export default function HelpPage() {
                       <p>Fill out below form to send a message!</p>
                     </Box>
                     <form
-                      action={"#"}
-                      method={"POST"}
+                      onSubmit={handleContactSubmit}
                       className={"admin-letter-frame"}
                     >
                       <div className={"admin-input-box"}>
@@ -105,6 +115,19 @@ export default function HelpPage() {
                           placeholder={"Your message"}
                         ></textarea>
                       </div>
+                      {contactNotice ? (
+                        <Box className={"contact-notice"} role={"status"}>
+                          <span className={"contact-notice-title"}>
+                            Messaging isn’t available yet
+                          </span>
+                          <p className={"contact-notice-text"}>
+                            We haven’t connected this form to our inbox yet, so
+                            nothing has been sent. Please reach us at the
+                            address in the footer in the meantime.
+                          </p>
+                        </Box>
+                      ) : null}
+
                       <Box
                         display={"flex"}
                         justifyContent={"flex-end"}
