@@ -1,10 +1,23 @@
-import { Box, Button, Container, ListItemIcon, Menu, MenuItem, Stack } from "@mui/material";
+import {
+    Box,
+    Button,
+    Container,
+    Drawer,
+    IconButton,
+    ListItemIcon,
+    Menu,
+    MenuItem,
+    Stack,
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Basket from "./Basket";
+import { useEffect, useState } from "react";
 import { CartItem } from "../../../lib/types/search";
 import { useGlobals } from "../../hooks/useGlobals";
 import { serverApi } from "../../../lib/config";
 import { Logout } from "@mui/icons-material";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface OtherNavbarProps {
     cartItems: CartItem[];
@@ -20,13 +33,40 @@ interface OtherNavbarProps {
     handleLogoutRequest: () => void;
 }
 
+interface NavItem {
+    to: string;
+    label: string;
+    authOnly?: boolean;
+}
+
+const NAV_ITEMS: NavItem[] = [
+    { to: "/", label: "Home" },
+    { to: "/products", label: "Products" },
+    { to: "/orders", label: "Orders", authOnly: true },
+    { to: "/member-page", label: "My page", authOnly: true },
+    { to: "/help", label: "Help" },
+];
+
+/** Brand wordmark — inline SVG, inherits currentColor from the token set. */
+const Wordmark = () => (
+    <svg
+        className={"brand-wordmark"}
+        width="208"
+        height="22"
+        role="img"
+        aria-label="Home Decor"
+    >
+        <text x="1" y="17">HOME DECOR</text>
+    </svg>
+);
+
 export default function OtherNavbar(props: OtherNavbarProps) {
     const {
-         cartItems,  
-         onAdd, 
-         onDelete, 
-         onRemove, 
-         onDeleteAll, 
+         cartItems,
+         onAdd,
+         onDelete,
+         onRemove,
+         onDeleteAll,
          setSignupOpen,
          setLoginOpen,
          handleLogoutClick,
@@ -35,49 +75,59 @@ export default function OtherNavbar(props: OtherNavbarProps) {
          handleLogoutRequest,
         } = props;
     const {authMember} = useGlobals();
+    const [scrolled, setScrolled] = useState(false);
+    const [navOpen, setNavOpen] = useState(false);
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 12);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
+    const navItems = NAV_ITEMS.filter((item) => !item.authOnly || authMember);
 
     return (
     <div className="other-navbar">
+        <header className={scrolled ? "site-header is-scrolled" : "site-header"}>
         <Container className="navbar-container">
             <Stack className="menu">
-                <Box>
-                    <NavLink to="/">
-                        <img className="brand-logo" src="/icons/burak.svg"/>
+                <Box className="brand">
+                    <NavLink to="/" aria-label="Home Decor — home">
+                        <Wordmark />
                     </NavLink>
-                </Box>    
+                </Box>
                     <Stack  className="links">
-                        <Box  className={"hover-line"}>
-                            <NavLink to="/">Home</NavLink>
-                        </Box>
-                        <Box  className={"hover-line"}>
-                            <NavLink to="/products" activeClassName={"underline"}>Products</NavLink>
-                        </Box>
-                        {authMember ? (
-                            <Box  className={"hover-line"}>
-                                <NavLink to="/orders" activeClassName={"underline"} >Orders</NavLink>
-                            </Box>
-                        ) : null}
-                        {authMember ? (
-                            <Box  className={"hover-line"}>
-                                <NavLink to="/member-page" activeClassName={"underline"}>My page</NavLink>
-                            </Box>
-                        ) : null}
-                        <Box  className={"hover-line"}>
-                            <NavLink to="/help" activeClassName={"underline"}>Help</NavLink>
-                        </Box>
-                        
-                        <Basket 
-                            cartItems={cartItems} 
-                            onAdd={onAdd}  
-                            onRemove={onRemove}   
-                            onDelete={onDelete}   
+                        <Stack className="nav-links">
+                            {navItems.map((item) => (
+                                <Box className={"hover-line"} key={item.to}>
+                                    {/* the "/" link intentionally has no
+                                        activeClassName — without `exact` it
+                                        would match every route */}
+                                    <NavLink
+                                        to={item.to}
+                                        activeClassName={
+                                            item.to === "/" ? undefined : "underline"
+                                        }
+                                    >
+                                        {item.label}
+                                    </NavLink>
+                                </Box>
+                            ))}
+                        </Stack>
+
+                        <Basket
+                            cartItems={cartItems}
+                            onAdd={onAdd}
+                            onRemove={onRemove}
+                            onDelete={onDelete}
                             onDeleteAll={onDeleteAll}
                         />
 
                         {!authMember ? (
                             <Box>
                                 <Button
-                                 variant="contained" 
+                                 variant="contained"
                                  className="login-button"
                                  onClick={() => setLoginOpen(true)}
                                  >
@@ -95,6 +145,15 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                                     onClick={handleLogoutClick}
                             />
                         )}
+
+                        <IconButton
+                            className={"nav-toggle"}
+                            aria-label="Open navigation"
+                            onClick={() => setNavOpen(true)}
+                        >
+                            <MenuIcon fontSize="small" />
+                        </IconButton>
+
                         <Menu
                     anchorEl={anchorEl}
                     id="account-menu"
@@ -105,7 +164,9 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                         elevation: 0,
                         sx: {
                             overflow: 'visible',
-                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                            borderRadius: '2px',
+                            border: '1px solid var(--line)',
+                            filter: 'drop-shadow(0px 1px 2px rgba(35,32,28,0.08))',
                             mt: 1.5,
                             '& .MuiAvatar-root': {
                                 width: 32,
@@ -132,7 +193,7 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                 >
                     <MenuItem onClick={handleLogoutRequest}>
                         <ListItemIcon>
-                            <Logout fontSize="small" style={{ color: 'blue' }} />
+                            <Logout fontSize="small" style={{ color: 'var(--ink-muted)' }} />
                         </ListItemIcon>
                         Logout
                     </MenuItem>
@@ -140,6 +201,38 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                    </Stack>
             </Stack>
         </Container>
-      </div> 
+        </header>
+
+        <Drawer
+            className={"nav-drawer"}
+            anchor={"right"}
+            open={navOpen}
+            onClose={() => setNavOpen(false)}
+        >
+            <Box className={"drawer-head"}>
+                <Box className={"drawer-label"}>Menu</Box>
+                <IconButton
+                    aria-label="Close navigation"
+                    onClick={() => setNavOpen(false)}
+                >
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            </Box>
+            <Box className={"drawer-links"}>
+                {navItems.map((item) => (
+                    <NavLink
+                        to={item.to}
+                        key={item.to}
+                        activeClassName={
+                            item.to === "/" ? undefined : "underline"
+                        }
+                        onClick={() => setNavOpen(false)}
+                    >
+                        {item.label}
+                    </NavLink>
+                ))}
+            </Box>
+        </Drawer>
+      </div>
     )
       }

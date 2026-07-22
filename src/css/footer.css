@@ -1,94 +1,244 @@
-.foot-desc-txt {
-  margin-top: 22px;
-  font-family: "Poppins";
+/* ============================================================
+   HOME DECOR — footer
+   Tokens are declared once in navbar.css :root and reused here.
+   ============================================================ */
+
+.site-footer {
+  width: 100%;
+  background: var(--footer-ground);
+  color: var(--surface);
+  padding: 96px 0 34px;
+}
+
+.site-footer .footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.2fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* --- brand block ---------------------------------------------- */
+
+.site-footer .footer-brand .brand-wordmark {
+  color: var(--surface);
+}
+
+.site-footer .foot-desc-txt {
+  margin-top: 26px;
+  max-width: 320px;
+  font-family: var(--font-sans);
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 34px;
-  color: #e3c08d;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--surface);
+  opacity: 0.72;
 }
 
-.sns-context {
-  margin-top: 17px;
-  width: 137px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
+/* --- column headings ------------------------------------------ */
 
-.foot-category-title {
-  width: 106px;
-  font-family: "Poppins";
+.site-footer .foot-category-title {
+  width: auto;
+  font-family: var(--font-serif);
   font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 34px;
-  color: #c5c8c9;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.3;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--surface);
 }
 
-.foot-category-link {
-  margin-top: 20px;
-  height: 170px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 170px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 34px;
-}
-
-.foot-category-link a {
-  color: #e3c08d;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.find-us {
-  display: flex;
-  flex-direction: row;
-}
-
-.find-us span {
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 34px;
-  color: #c5c8c9;
-}
-
-.find-us div {
-  margin-left: 10px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 34px;
-  color: #e3c08d;
-}
-
-.copyright-txt {
-  margin-top: 17px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 34px;
-  color: #e3c08d;
-}
-
-.foot-category-title:after {
+.site-footer .foot-category-title::after {
   display: block;
   content: "";
-  border-bottom: solid 2px #d7b686;
-  transform: scaleX(0);
-  transition: transform 250ms ease-in-out;
+  margin-top: 14px;
+  width: 26px;
+  border-bottom: 1px solid var(--accent);
+  transform: scaleX(1);
   transform-origin: 0% 50%;
 }
 
-.foot-category-title:hover:after {
+/* --- link column ---------------------------------------------- */
+
+.site-footer .foot-category-link {
+  margin-top: 22px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.site-footer .foot-category-link a {
+  width: fit-content;
+  position: relative;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--surface);
+  opacity: 0.72;
+  transition: opacity var(--ease), color var(--ease);
+}
+
+.site-footer .foot-category-link a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0% 50%;
+  transition: transform var(--ease);
+}
+
+.site-footer .foot-category-link a:hover {
+  opacity: 1;
+}
+
+.site-footer .foot-category-link a:hover::after {
   transform: scaleX(1);
+}
+
+/* --- contact column ------------------------------------------- */
+
+.site-footer .find-us {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.site-footer .find-us span {
+  flex: 0 0 auto;
+  width: 58px;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 1.9;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--surface);
+  opacity: 0.55;
+}
+
+.site-footer .find-us div {
+  margin-left: 0;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--surface);
+  opacity: 0.82;
+}
+
+/* --- social column -------------------------------------------- */
+
+.site-footer .sns-context {
+  margin-top: 22px;
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.site-footer .sns-context a {
+  display: inline-flex;
+  opacity: 0.62;
+  transition: opacity var(--ease);
+}
+
+.site-footer .sns-context a:hover {
+  opacity: 1;
+}
+
+.site-footer .sns-context img {
+  width: 18px;
+  height: 18px;
+}
+
+/* --- bottom bar ------------------------------------------------ */
+
+.site-footer .footer-rule {
+  margin-top: 76px;
+  width: 100%;
+  height: 1px;
+  background: var(--surface);
+  opacity: 0.14;
+}
+
+.site-footer .footer-bottom {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.site-footer .copyright-txt {
+  margin-top: 0;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.9;
+  letter-spacing: 0.6px;
+  color: var(--surface);
+  opacity: 0.62;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1100px) {
+  .site-footer .footer-grid {
+    gap: 44px;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-footer {
+    padding: 72px 0 30px;
+  }
+
+  .site-footer .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px 40px;
+  }
+
+  .site-footer .footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .site-footer .footer-rule {
+    margin-top: 56px;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-footer .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .site-footer .foot-desc-txt {
+    max-width: none;
+  }
+
+  .site-footer .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
 }

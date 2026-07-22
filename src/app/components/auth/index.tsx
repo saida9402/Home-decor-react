@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ModalImg = styled.img`
+const ModalImg = styled.img<React.ImgHTMLAttributes<HTMLImageElement>>`
   width: 62%;
   height: 100%;
   border-radius: 10px;
@@ -53,6 +53,26 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
 
   /** HANDLERS **/
 
+  // The two modals share one set of state, so anything left behind by one form
+  // would otherwise be submitted by the other. Clearing on every close (and on
+  // success) keeps the fields and the state in step, and stops the password
+  // from outliving the request that needed it.
+  const resetForm = () => {
+    setMemberNick("");
+    setMemberPhone("");
+    setMemberPassword("");
+  };
+
+  const closeSignup = () => {
+    resetForm();
+    handleSignupClose();
+  };
+
+  const closeLogin = () => {
+    resetForm();
+    handleLoginClose();
+  };
+
   const handlerUsername = (e: T) => {
     console.log(e.target.value);
     setMemberNick(e.target.value);
@@ -67,7 +87,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
     if(e.key === "Enter" && signupOpen) {
       handleSignupRequest().then();
     } else if (e.key === "Enter" && loginOpen) {
-      handleSignupRequest().then();
+      handleLoginRequest().then();
     }
   }
 
@@ -87,10 +107,10 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
       const result = await member.signup(signupInput);
 
       setAuthMember(result);
-      handleSignupClose();
+      closeSignup();
     } catch (err) {
       console.log(err);
-      handleSignupClose();
+      closeSignup();
       sweetErrorHandling(err).then();
     }
   }
@@ -110,10 +130,10 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
       const result = await member.login(loginInput);
 
       setAuthMember(result);
-      handleLoginClose();
+      closeLogin();
     } catch (err) {
       console.log(err);
-       handleLoginClose();
+       closeLogin();
       sweetErrorHandling(err).then();
     }
   }
@@ -126,7 +146,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
         aria-describedby="transition-modal-description"
         className={classes.modal}
         open={signupOpen}
-        onClose={handleSignupClose}
+        onClose={closeSignup}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -147,6 +167,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
                 id="outlined-basic"
                 label="username"
                 variant="outlined"
+                value={memberNick}
                 onChange={handlerUsername}
               />
               <TextField
@@ -154,12 +175,14 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
                 id="outlined-basic"
                 label="phone number"
                 variant="outlined"
+                value={memberPhone}
                 onChange={handlerPhone}
               />
               <TextField
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
+                value={memberPassword}
                 onChange={handlerPassword}
                 onKeyDown={handlePasswordKeyDown}
               />
@@ -182,7 +205,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
         aria-describedby="transition-modal-description"
         className={classes.modal}
         open={loginOpen}
-        onClose={handleLoginClose}
+        onClose={closeLogin}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -209,6 +232,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
                 label="username"
                 variant="outlined"
                 sx={{ my: "10px" }}
+                value={memberNick}
                 onChange={handlerUsername}
               />
               <TextField
@@ -216,6 +240,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
                 label={"password"}
                 variant={"outlined"}
                 type={"password"}
+                value={memberPassword}
                 onChange={handlerPassword}
                 onKeyDown={handlePasswordKeyDown}
               />

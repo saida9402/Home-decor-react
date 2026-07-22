@@ -1,245 +1,494 @@
+/* ============================================================
+   HOME DECOR — brand tokens
+   Colour palette: exactly 7 tokens. Nothing else is hardcoded.
+   ============================================================ */
+
+:root {
+  --surface: #f7f4ef; /* bone — page + open header ground        */
+  --surface-alt: #ede7de; /* warm greige — solid / scrolled header    */
+  --ink: #23201c; /* warm near-black — wordmark, nav, headings */
+  --ink-muted: #6b635a; /* warm taupe-grey — secondary copy         */
+  --accent: #9c4f2e; /* muted terracotta — hover, active, badge  */
+  --line: #e0d9cf; /* warm hairline                            */
+  --footer-ground: #2a2622; /* deep warm charcoal — inverted footer   */
+
+  /* non-colour primitives */
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif;
+  --ease: 240ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   WORDMARK — inline SVG, inherits currentColor
+   ============================================================ */
+
+.brand-wordmark {
+  display: block;
+  width: 208px;
+  height: 22px;
+  overflow: visible;
+  color: var(--ink);
+  transition: color var(--ease), opacity var(--ease);
+}
+
+.brand-wordmark text {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 6.4px;
+  fill: currentColor;
+}
+
+.brand a:hover .brand-wordmark {
+  opacity: 0.62;
+}
+
+.brand a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+/* ============================================================
+   HEADER — shared shell for both variants
+   ============================================================ */
+
+.site-header {
+  width: 100%;
+  z-index: 1100;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color var(--ease), border-color var(--ease),
+    padding var(--ease);
+}
+
+.site-header .navbar-container {
+  margin: 0 auto;
+}
+
+.site-header .menu {
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.site-header .links {
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 26px;
+}
+
+/* desktop nav group — collapses into the drawer below 900px.
+   The Basket sits OUTSIDE this group so it always stays reachable. */
+.site-header .nav-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 34px;
+}
+
+/* --- nav items ------------------------------------------------ */
+
+.site-header a {
+  text-decoration: none;
+}
+
+.site-header .hover-line {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.site-header .hover-line a {
+  position: relative;
+  display: inline-block;
+  padding: 6px 0;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: color var(--ease);
+}
+
+/* underline reveal — scoped to anchors so the Basket icon,
+   which also sits in a .hover-line box, never gets a rule */
+.site-header .hover-line a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0% 50%;
+  transition: transform var(--ease);
+}
+
+.site-header .hover-line a:hover {
+  color: var(--accent);
+}
+
+.site-header .hover-line a:hover::after,
+.site-header .hover-line a.underline::after {
+  transform: scaleX(1);
+}
+
+.site-header .hover-line a.underline {
+  color: var(--accent);
+}
+
+/* --- basket trigger ------------------------------------------- */
+
+.site-header .links .MuiIconButton-root {
+  padding: 6px;
+  border-radius: 2px;
+  transition: opacity var(--ease);
+}
+
+.site-header .links .MuiIconButton-root:hover {
+  background: transparent;
+  opacity: 0.62;
+}
+
+/* shopping-cart.svg ships white-filled; darken it to read as ink
+   on a light bar (the Basket component itself is untouched) */
+.site-header .links .MuiIconButton-root img {
+  width: 21px;
+  height: 21px;
+  filter: brightness(0) opacity(0.82);
+}
+
+.site-header .MuiBadge-badge {
+  min-width: 17px;
+  height: 17px;
+  padding: 0 5px;
+  background-color: var(--accent);
+  color: var(--surface);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* --- login button + avatar ------------------------------------ */
+
+.site-header .links .login-button {
+  padding: 9px 26px;
+  min-width: 0;
+  background: transparent;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  box-shadow: none;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: background-color var(--ease), color var(--ease),
+    border-color var(--ease);
+}
+
+.site-header .links .login-button:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--surface);
+  box-shadow: none;
+}
+
+.site-header .links .user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  transition: border-color var(--ease);
+}
+
+.site-header .links .user-avatar:hover {
+  border-color: var(--accent);
+}
+
+/* --- mobile trigger ------------------------------------------- */
+
+.site-header .nav-toggle {
+  display: none;
+  padding: 6px;
+  border-radius: 2px;
+  color: var(--ink);
+}
+
+.site-header .nav-toggle:hover {
+  background: transparent;
+  opacity: 0.62;
+}
+
+/* ============================================================
+   HOME VARIANT — transparent bar over a bone hero
+   ============================================================ */
+
 .home-navbar {
-    width: 100%;
-    height: 773px;
-    display: flex;
-    background: url("/public/img/banner.webp");
-    background-size: cover;
+  position: relative;
+  width: 100%;
+  display: block;
+  background: var(--surface);
+  padding-top: 104px;
 }
 
-.home-navbar .navbar-container {
-    margin-top: 55px;
-    height: 642px;
+.home-navbar .site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 32px 0;
 }
 
-.home-navbar .navbar-container .menu {
-    height: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.home-navbar .site-header.is-scrolled {
+  padding: 14px 0;
+  background: var(--surface-alt);
+  border-bottom-color: var(--line);
 }
 
-.home-navbar .navbar-container .menu .brand-logo {
-    width: 125px;
-    height: 30px;
+/* --- hero ------------------------------------------------------ */
+
+.home-navbar .header-frame {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 92px 0 128px;
 }
 
-.home-navbar .navbar-container .menu .links {
-    min-width: 700px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.home-navbar .header-frame .detail {
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
 }
 
-.home-navbar .navbar-container .menu .links .login-button {
-    background: #3776cc;
-    color: #f8f8ff;
+.home-navbar .header-frame .detail .head-main-txt {
+  font-family: var(--font-serif);
+  font-size: 68px;
+  font-weight: 300;
+  line-height: 1.06;
+  letter-spacing: -0.5px;
+  color: var(--ink);
 }
 
-.home-navbar .navbar-container .menu .links .user-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 24px;
-    
+.home-navbar .header-frame .detail .wel-txt {
+  margin-top: 26px;
+  max-width: 460px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--ink-muted);
 }
 
-.home-navbar a {
-    text-decoration: none;
+.home-navbar .header-frame .detail .service-txt {
+  margin-top: 34px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.9px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
 }
 
-.home-navbar .hover-line a {
-    color: #f8f8ff;
-    z-index: 100;
+.home-navbar .header-frame .detail .signup {
+  margin-top: 44px;
 }
 
-.home-navbar .underline {
-    display: block;
-    content: "";
-    border-bottom: solid 2px #d7b686;
+.home-navbar .header-frame .detail .signup .signup-button {
+  padding: 16px 42px;
+  min-width: 0;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  box-shadow: none;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.9px;
+  text-transform: uppercase;
+  color: var(--surface);
+  transition: background-color var(--ease), color var(--ease);
 }
 
-.home-navbar .hover-line:after {
-    display: block;
-    content: "";
-    border-bottom: solid 2px #d7b686;
-    transform: scaleX(0);
-    transition: transform 250ms ease-in-out;
+.home-navbar .header-frame .detail .signup .signup-button:hover {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: none;
 }
 
-.home-navbar .hover-line:hover:after {
-    transform:  scaleX(1);
-}
-
-.home-navbar div.hover-line::after {
-    transform-origin: 0% 50%;
-}
-
-.home-navbar .navbar-container .header-frame {
-    margin-top: 142px;
-    height: 462px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.home-navbar .navbar-container .header-frame .detail {
-    width: 510px;
-    display: flex;
-    flex-direction: column;
-}
-
-.home-navbar .navbar-container .header-frame .detail .head-main-txt {
-    width: 450px;
-    height: 150px;
-    font-family: "Roboto Serif";
-    font-size: 50px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    letter-spacing: -0.75px;
-    color: #f8f8ff;
-}
-
-.home-navbar .navbar-container .header-frame .detail .wel-txt {
-    width: 510px;
-    height: 42px;
-    font-family: "Roboto Serif";
-    font-size: 36px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: -0.54px;
-    color: #d7b686;
-}
-
-.home-navbar .navbar-container .header-frame .detail .service-txt {
-    margin-top: 23px;
-    width: 153px;
-    height: 23px;
-    font-family: "Roboto Serif";
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: -0.3px;
-    color: #d5d5d5;
-}
-
-.home-navbar .navbar-container .detail .signup {
-    margin-top: 73px;
-}
-
-.home-navbar .navbar-container .detail .signup .signup-button {
-    width: 210px;
-    height: 60px;
-    border-radius: 4px;
-    background: #1976d2;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 17px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    color: #f8f8ff;
-}
-
-.home-navbar .navbar-container .logo-frame {
-    margin-top: 43px;
-    width: 690px;
-    height: 419px;
-}
-
-.home-navbar .navbar-container .logo-frame .logo-img {
-    width: 100%;
-    height: 100%;
-    background: url("/public/img/logo.webp");
-    background-size: contain;
-    background-repeat: no-repeat;
-    filter: invert(25%);
-}
-
-
-
-
+/* ============================================================
+   OTHER VARIANT — compact, solid, sticky from load
+   ============================================================ */
 
 .other-navbar {
-    width: 100%;
-    height: 400px;
-    display: flex;
-    background: url("/public/img/banner.webp");
-    background-size: cover;
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  width: 100%;
+  display: block;
+  background: var(--surface-alt);
 }
 
-.other-navbar .navbar-container {
-    margin-top: 55px;
+.other-navbar .site-header {
+  padding: 18px 0;
+  background: var(--surface-alt);
+  border-bottom-color: var(--line);
 }
 
-.other-navbar .navbar-container .menu {
-    height: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.other-navbar .site-header.is-scrolled {
+  padding: 12px 0;
 }
 
-.other-navbar .navbar-container .menu .brand-logo {
-    width: 125px;
-    height: 30px;
+/* ============================================================
+   MOBILE DRAWER
+   ============================================================ */
+
+.nav-drawer .MuiDrawer-paper {
+  width: 300px;
+  padding: 26px 30px 40px;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  box-shadow: none;
 }
 
-.other-navbar .navbar-container .menu .links {
-    min-width: 700px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.nav-drawer .drawer-head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
 }
 
-.other-navbar .navbar-container .menu .links .login-button {
-    background: #3776cc;
-    color: #f8f8ff;
+.nav-drawer .drawer-head .drawer-label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.9px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
 }
 
-.other-navbar .navbar-container .menu .links .user-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 24px;
-    
+.nav-drawer .drawer-head .MuiIconButton-root {
+  padding: 4px;
+  border-radius: 2px;
+  color: var(--ink);
 }
 
-.other-navbar a {
-    text-decoration: none;
+.nav-drawer .drawer-links {
+  display: flex;
+  flex-direction: column;
+  padding-top: 12px;
 }
 
-.other-navbar .hover-line a {
-    color: #f8f8ff;
-    z-index: 100;
+.nav-drawer .drawer-links a {
+  padding: 17px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  transition: color var(--ease);
 }
 
-.other-navbar .underline {
-    display: block;
-    content: "";
-    border-bottom: solid 2px #d7b686;
+.nav-drawer .drawer-links a:hover,
+.nav-drawer .drawer-links a.underline {
+  color: var(--accent);
 }
 
-.other-navbar .hover-line:after {
-    display: block;
-    content: "";
-    border-bottom: solid 2px #d7b686;
-    transform: scaleX(0);
-    transition: transform 250ms ease-in-out;
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1100px) {
+  .site-header .nav-links {
+    gap: 24px;
+  }
+
+  .home-navbar .header-frame .detail .head-main-txt {
+    font-size: 54px;
+  }
 }
 
-.other-navbar .hover-line:hover:after {
-    transform:  scaleX(1);
+@media (max-width: 900px) {
+  /* nav collapses into the drawer; basket + login/avatar stay in the bar */
+  .site-header .nav-links {
+    display: none;
+  }
+
+  .site-header .nav-toggle {
+    display: inline-flex;
+  }
+
+  .site-header .links {
+    gap: 10px;
+  }
+
+  .site-header .links .login-button {
+    padding: 8px 16px;
+    letter-spacing: 1.2px;
+  }
+
+  .home-navbar {
+    padding-top: 76px;
+  }
+
+  .home-navbar .site-header {
+    padding: 18px 0;
+  }
+
+  .home-navbar .header-frame {
+    padding: 64px 0 88px;
+  }
+
+  .home-navbar .header-frame .detail .head-main-txt {
+    font-size: 44px;
+  }
+
+  .brand-wordmark {
+    width: 168px;
+    height: 18px;
+  }
+
+  .brand-wordmark text {
+    font-size: 14px;
+    letter-spacing: 5.2px;
+  }
 }
 
-.other-navbar div.hover-line::after {
-    transform-origin: 0% 50%;
+@media (max-width: 600px) {
+  .home-navbar .header-frame .detail .head-main-txt {
+    font-size: 36px;
+  }
+
+  .home-navbar .header-frame .detail .wel-txt {
+    font-size: 15px;
+  }
+
+  .nav-drawer .MuiDrawer-paper {
+    width: 82vw;
+  }
 }
 
-/* BASKET */
+/* ============================================================
+   BASKET POPOVER — structure untouched, palette re-tinted
+   ============================================================ */
 
 .basket-frame {
   position: relative;
@@ -248,8 +497,9 @@
   height: auto;
   display: flex;
   flex-direction: column;
-  background: #f8f8ff;
-  border-radius: 16px;
+  background: var(--surface);
+  border-radius: 2px;
+  font-family: var(--font-sans);
 }
 
 .basket-frame .all-check-box {
@@ -259,10 +509,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: #d7b586;
+  background: var(--surface-alt);
   border-width: 1px 0px;
   border-style: solid;
-  border-color: #343434;
+  border-color: var(--line);
+  font-size: 13px;
+  color: var(--ink);
 }
 
 .basket-frame .basket-info-box {
@@ -278,29 +530,29 @@
 .basket-info-box .product-img {
   width: 60px;
   height: 60px;
-  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.25));
-  border-radius: 29px;
+  border-radius: 2px;
+  object-fit: cover;
 }
 
 .basket-info-box .product-name {
   margin-left: 11px;
   width: 185px;
-  font-family: "Poppins";
+  font-family: var(--font-sans);
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 30px;
-  color: #000000;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--ink);
 }
 
 .basket-info-box .product-price {
   width: 80px;
-  font-family: "Poppins";
+  font-family: var(--font-sans);
   font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: 500;
+  font-size: 14px;
   line-height: 22px;
-  color: #ae0000;
+  color: var(--accent);
 }
 
 .basket-info-box
@@ -317,6 +569,7 @@
   top: 33%;
   right: 2%;
   cursor: pointer;
+  color: var(--ink-muted);
 }
 
 .basket-frame .basket-order {
@@ -327,18 +580,18 @@
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.5);
+  border-top: 1px solid var(--line);
 }
 
 .basket-order .price {
   width: 200px;
   display: flex;
-  font-family: "Poppins";
+  font-family: var(--font-sans);
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 30px;
-  color: #000000;
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--ink);
 }
 
 .basket-frame .orders-wrapper {
@@ -352,16 +605,16 @@
 }
 
 .basket-frame .orders-wrapper::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 .basket-frame .orders-wrapper::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 5px;
+  background-color: var(--line);
+  border-radius: 2px;
 }
 
 .basket-frame .orders-wrapper::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--surface);
 }
 
 .basket-frame .orders-main-wrapper {
@@ -373,7 +626,3 @@
   display: flex;
   flex-direction: column;
 }
-
-
-
-

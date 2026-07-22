@@ -1,4 +1,14 @@
-import { Box, Button, Container, dividerClasses, ListItemIcon, Menu, MenuItem, Stack } from "@mui/material";
+import {
+    Box,
+    Button,
+    Container,
+    Drawer,
+    IconButton,
+    ListItemIcon,
+    Menu,
+    MenuItem,
+    Stack,
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Basket from "./Basket";
 import { useEffect, useState } from "react";
@@ -6,7 +16,8 @@ import { CartItem } from "../../../lib/types/search";
 import { useGlobals } from "../../hooks/useGlobals";
 import { serverApi } from "../../../lib/config";
 import { Logout } from "@mui/icons-material";
-
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface HomeNavbarProps {
     cartItems: CartItem[];
@@ -20,15 +31,42 @@ interface HomeNavbarProps {
     anchorEl: HTMLElement | null;
     handleCloseLogout: () => void;
     handleLogoutRequest: () => void;
-}    
+}
+
+interface NavItem {
+    to: string;
+    label: string;
+    authOnly?: boolean;
+}
+
+const NAV_ITEMS: NavItem[] = [
+    { to: "/", label: "Home" },
+    { to: "/products", label: "Products" },
+    { to: "/orders", label: "Orders", authOnly: true },
+    { to: "/member-page", label: "My page", authOnly: true },
+    { to: "/help", label: "Help" },
+];
+
+/** Brand wordmark — inline SVG, inherits currentColor from the token set. */
+const Wordmark = () => (
+    <svg
+        className={"brand-wordmark"}
+        width="208"
+        height="22"
+        role="img"
+        aria-label="Home Decor"
+    >
+        <text x="1" y="17">HOME DECOR</text>
+    </svg>
+);
 
 export default function HomeNavbar(props: HomeNavbarProps) {
     const {
          cartItems,
-         onAdd, 
-         onDelete, 
-         onRemove, 
-         onDeleteAll, 
+         onAdd,
+         onDelete,
+         onRemove,
+         onDeleteAll,
          setSignupOpen,
          setLoginOpen,
          handleLogoutClick,
@@ -37,54 +75,53 @@ export default function HomeNavbar(props: HomeNavbarProps) {
          handleLogoutRequest,
          } = props;
     const {authMember} = useGlobals();
-    
+    const [scrolled, setScrolled] = useState(false);
+    const [navOpen, setNavOpen] = useState(false);
+
     /** HANDLERS */
 
-    return ( 
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 12);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
+    const navItems = NAV_ITEMS.filter((item) => !item.authOnly || authMember);
+
+    return (
       <div className="home-navbar">
+        <header className={scrolled ? "site-header is-scrolled" : "site-header"}>
         <Container className="navbar-container">
             <Stack className="menu">
-                <Box>
-                    <NavLink to="/">
-                        <img className="brand-logo" src="/icons/burak.svg"/>
+                <Box className="brand">
+                    <NavLink to="/" aria-label="Home Decor — home">
+                        <Wordmark />
                     </NavLink>
-                </Box>    
+                </Box>
                     <Stack  className="links">
-                        <Box  className={"hover-line"}>
-                            <NavLink to="/" activeClassName={"underline"}>Home</NavLink>
-                        </Box>
-                        <Box  className={"hover-line"}>
-                            <NavLink to="/products" activeClassName={"underline"}>Products</NavLink>
-                        </Box>
-                        {authMember ? (
-                            <Box  className={"hover-line"}>
-                                <NavLink to="/orders" activeClassName={"underline"} >Orders</NavLink>
-                            </Box>
-                        ) : null}
-                        {authMember ? (
-                            <Box  className={"hover-line"}>
-                                <NavLink to="/member-page" activeClassName={"underline"}>My page</NavLink>
-                            </Box>
-                        ) : null}
-                        <Box  className={"hover-line"}>
-                            <NavLink to="/help" activeClassName={"underline"}>Help</NavLink>
-                        </Box>
-                        <Box  className={"hover-line"}>
-                            <NavLink to="/help" activeClassName={"underline"}>Help</NavLink>
-                        </Box>
-                        
-                        <Basket  
-                            cartItems={cartItems} 
-                            onAdd={onAdd}  
-                            onRemove={onRemove}   
-                            onDelete={onDelete}   
+                        <Stack className="nav-links">
+                            {navItems.map((item) => (
+                                <Box className={"hover-line"} key={item.to}>
+                                    <NavLink to={item.to} activeClassName={"underline"}>
+                                        {item.label}
+                                    </NavLink>
+                                </Box>
+                            ))}
+                        </Stack>
+
+                        <Basket
+                            cartItems={cartItems}
+                            onAdd={onAdd}
+                            onRemove={onRemove}
+                            onDelete={onDelete}
                             onDeleteAll={onDeleteAll}
                         />
 
                         {!authMember ? (
                             <Box>
                                 <Button
-                                 variant="contained" 
+                                 variant="contained"
                                  className="login-button"
                                  onClick={() => setLoginOpen(true)}
                                  >
@@ -103,6 +140,14 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                             />
                         )}
 
+                        <IconButton
+                            className={"nav-toggle"}
+                            aria-label="Open navigation"
+                            onClick={() => setNavOpen(true)}
+                        >
+                            <MenuIcon fontSize="small" />
+                        </IconButton>
+
                    <Menu
                     anchorEl={anchorEl}
                     id="account-menu"
@@ -113,7 +158,9 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                         elevation: 0,
                         sx: {
                             overflow: 'visible',
-                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                            borderRadius: '2px',
+                            border: '1px solid var(--line)',
+                            filter: 'drop-shadow(0px 1px 2px rgba(35,32,28,0.08))',
                             mt: 1.5,
                             '& .MuiAvatar-root': {
                                 width: 32,
@@ -140,26 +187,34 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                 >
                     <MenuItem onClick={handleLogoutRequest}>
                         <ListItemIcon>
-                            <Logout fontSize="small" style={{ color: 'blue' }} />
+                            <Logout fontSize="small" style={{ color: 'var(--ink-muted)' }} />
                         </ListItemIcon>
                         Logout
                     </MenuItem>
                    </Menu>
                    </Stack>
             </Stack>
+        </Container>
+        </header>
+
+        <Container className="navbar-container">
             <Stack className={"header-frame"}>
                 <Stack className={"detail"}>
                     <Box className={"head-main-txt"}>
-                        World's Most Delicious Cousine
+                        Objects made to be lived with
                     </Box>
                     <Box className={"wel-txt"}>
-                        The choise, not just a choise
+                        Furniture, lighting, storage and textiles for the
+                        considered home — chosen for how they wear, not how
+                        they photograph.
                     </Box>
-                    <Box className={"service-txt"}>24 hours service</Box>
+                    <Box className={"service-txt"}>
+                        Furniture · Lighting · Storage · Textiles
+                    </Box>
                     <Box className={"signup"}>
                         {!authMember ? (
-                            <Button 
-                                variant={"contained"} className={"signup-button"} 
+                            <Button
+                                variant={"contained"} className={"signup-button"}
                                 onClick={() => setSignupOpen(true)}
                                 >
                                 SIGN UP
@@ -167,11 +222,37 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                         ) : null}
                     </Box>
                 </Stack>
-                <Box className={"logo-frame"}>
-                    <div className={"logo-img"}></div>
-                </Box>
             </Stack>
         </Container>
-      </div> 
+
+        <Drawer
+            className={"nav-drawer"}
+            anchor={"right"}
+            open={navOpen}
+            onClose={() => setNavOpen(false)}
+        >
+            <Box className={"drawer-head"}>
+                <Box className={"drawer-label"}>Menu</Box>
+                <IconButton
+                    aria-label="Close navigation"
+                    onClick={() => setNavOpen(false)}
+                >
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            </Box>
+            <Box className={"drawer-links"}>
+                {navItems.map((item) => (
+                    <NavLink
+                        to={item.to}
+                        key={item.to}
+                        activeClassName={"underline"}
+                        onClick={() => setNavOpen(false)}
+                    >
+                        {item.label}
+                    </NavLink>
+                ))}
+            </Box>
+        </Drawer>
+      </div>
     );
 }
