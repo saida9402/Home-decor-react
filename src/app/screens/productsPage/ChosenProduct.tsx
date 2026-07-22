@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { Container, Stack, Box } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import Divider from "../../components/divider";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
@@ -98,10 +99,16 @@ export default function ChosenProduct(props: ChoseProductProps) {
             <span className={"resto-name"}>{restaurant?.memberNick}</span>
             <span className={"resto-name"}>{restaurant?.memberPhone}</span>
             <Box className={"rating-box"}>
-              <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
+              <Rating
+                name="half-rating"
+                defaultValue={2.5}
+                precision={0.5}
+                icon={<StarBorderOutlinedIcon fontSize="inherit" />}
+                emptyIcon={<StarBorderOutlinedIcon fontSize="inherit" />}
+              />
               <div className={"evaluation-box"}>
                 <div className={"product-view"}>
-                  <RemoveRedEyeIcon sx={{ mr: "10px" }} />
+                  <VisibilityOutlinedIcon sx={{ mr: "10px" }} />
                   <span>{chosenProduct?.productViews}</span>
                 </div>
               </div>

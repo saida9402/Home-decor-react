@@ -2,7 +2,7 @@
     position: relative;
     width: 100%;
     height: auto;
-    background: #f8f8ff;
+    background: var(--surface);
 }
 
 /** Products **/
@@ -11,250 +11,514 @@
     width: 100%;
     height: auto;
     display: flex;
-    background: #f8f8ff;
-    display: flex;
     flex-direction: column;
+    background: var(--surface);
+    padding-bottom: 40px;
 }
 
 /** Avatar-big-box **/
 
 .products-page .products .avatar-big-box {
-    display: flex;
     position: relative;
     width: 100%;
     height: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;  
+    align-items: center;
 }
 
 .products-page .products .top-text {
     position: relative;
     width: 100%;
-    height: 43px;
-    margin-top: 80px;
-    margin-left: 100px;
+    height: auto;
+    margin: 72px 0 0;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
 }
 
 .products-page .products .top-text p {
     position: relative;
-    margin-left: 380px;
-    font-family: "Dancing Script";
+    margin: 0;
+    font-family: var(--font-serif);
     font-style: normal;
-    font-weight: 900;
-    font-size: 50px;
-
+    font-weight: 300;
+    font-size: 44px;
+    line-height: 1.15;
+    letter-spacing: 1px;
+    color: var(--ink);
 }
 
-/** Dishes filter **/
-.products-page .products .dishes-filter-section {
+/** Search **/
+
+.products-page .products .single-search-big-box {
+    flex: 0 1 420px;
+    min-width: 0;
     display: flex;
-    margin-top: 40px;
     flex-direction: row;
-    justify-content: end;
-   
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 4px 4px 4px 16px;
+}
+
+.products-page .products .single-search-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 34px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    letter-spacing: 0.4px;
+    color: var(--ink);
+}
+
+.products-page .products .single-search-input::placeholder {
+    color: var(--ink-muted);
+    opacity: 0.72;
+}
+
+.products-page .products button.single-button-search {
+    flex: 0 0 auto;
+    padding: 9px 20px;
+    min-width: 0;
+    background: var(--ink);
+    border-radius: 2px;
+    box-shadow: none;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--surface);
+    transition: background-color var(--ease), color var(--ease);
+}
+
+.products-page .products button.single-button-search:hover {
+    background: var(--accent);
+    box-shadow: none;
+}
+
+/** Order filter — plain horizontal row **/
+.products-page .products .dishes-filter-section {
+    width: 100%;
+    display: flex;
+    margin-top: 36px;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 .products-page .products .dishes-filter-section .dishes-filter-box {
-    width: 261px;
-    height: 36px;
+    width: auto;
+    height: auto;
+    margin: 0 0 10px;
+    padding: 0;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    gap: 20px;
-    margin-left: 1000px;
-    margin-bottom: 10px;
-    padding: 8px 16px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-/** List category  **/
+/** Collection filter — was an absolutely positioned rotated rail **/
 .products-page .products .list-category-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.products-page .products .list-category-section .product-category {
+    width: 100%;
     display: flex;
     flex-direction: row;
 }
 
 .products-page .products .list-category-section .category-main {
-    width: 40px;
-    height: 384px;
-    position: absolute;
+    position: static;
+    width: 100%;
+    height: auto;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     gap: 10px;
-    justify-content: space-between;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
+    writing-mode: horizontal-tb;
+    transform: none;
     border: none;
-    border-radius: 50px;
-    padding: 10px;
-    font-weight: bold;
-    cursor: pointer;
+    border-radius: 0;
+    padding: 0 0 4px;
+    font-weight: 400;
 }
 
 .products-page .products .list-category-section .category-main button {
-    min-width: auto;
-    margin-right: 10px;
+    min-width: 0;
+    margin-right: 0;
 }
+
+/** Shared filter-button skin — overrides the MUI palette for this page only **/
+.products-page .products .dishes-filter-box .MuiButton-root,
+.products-page .products .category-main .MuiButton-root {
+    padding: 9px 22px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    box-shadow: none;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    transition: background-color var(--ease), color var(--ease),
+        border-color var(--ease);
+}
+
+.products-page .products .dishes-filter-box .MuiButton-root:hover,
+.products-page .products .category-main .MuiButton-root:hover {
+    background: transparent;
+    border-color: var(--ink);
+    color: var(--ink);
+    box-shadow: none;
+}
+
+/* the active filter is the one the component renders as color="primary" */
+.products-page .products .dishes-filter-box .MuiButton-containedPrimary,
+.products-page .products .category-main .MuiButton-containedPrimary {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--surface);
+}
+
+.products-page .products .dishes-filter-box .MuiButton-containedPrimary:hover,
+.products-page .products .category-main .MuiButton-containedPrimary:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--surface);
+}
+
+/** Product grid **/
 .products-page .products .product-wrapper {
-   margin-left: 100px;
-   width: 1251px;
-   height: 754px;
-   display: flex;
-   flex-direction: row;
-   flex-wrap: wrap;
-   justify-content: space-between;
+    margin: 26px 0 0;
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 28px;
+    align-items: stretch;
 }
 
+/* fixed structure: image at a fixed ratio, content fills the rest,
+   so every card in a row resolves to the same height */
 .products-page .products .product-card {
-    /* margin-top: 40px; */
-    margin-right: 24px;
-    width: 286pxpx;
-    height: 357px;
-    display: flex;  
+    margin: 0;
+    width: auto;
+    height: 100%;
+    min-width: 0;
+    display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color var(--ease);
 }
 
-
+.products-page .products .product-card:hover {
+    border-color: var(--ink-muted);
+}
 
 .products .product-wrapper .no-data {
+    grid-column: 1 / -1;
     width: 100%;
+    padding: 80px 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-transform: capitalize;
-    font-family: "Poppins";
+    font-family: var(--font-sans);
     font-style: normal;
     font-weight: 400;
-    font-size: 30px;
-    line-height: 34px;
-    color: #e3c08d;
+    font-size: 15px;
+    letter-spacing: 0.4px;
+    color: var(--ink-muted);
 }
 
+/** Card image **/
+/* The photo is a CSS background set inline by the component, so the 10px
+   inset is done with background-origin/clip rather than a wrapper element:
+   both the neutral ground and the photo are clipped to the content box,
+   and the 10px gutter shows the card ground behind. Same inset, same
+   cover + centre crop, as every other product card. */
 .products-page .products .product-card .product-img {
     position: relative;
-    width: 273px;
-    height: 275px;
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    aspect-ratio: 4 / 5;
+    padding: 10px;
+    background-color: var(--surface-alt);
     background-size: cover;
-    border-radius: 0px 50px 0px 0px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-clip: content-box;
+    border-radius: 0;
+    overflow: hidden;
 }
 
 .products-page .products .product-img .product-sale {
-    margin: 10px;
-    width: 100px;
-    height: 30px;
-    display: flex;
+    position: absolute;
+    /* 10px card inset + 10px inside the image well */
+    top: 20px;
+    left: 20px;
+    z-index: 3;
+    margin: 0;
+    width: auto;
+    height: auto;
+    padding: 5px 11px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #ff9200;
-    box-shadow: 4px 6px 20px #0000001a;
-    border-radius: 25px;
-    font-family: "Poppins";
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    box-shadow: none;
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
 }
 
-.products-page .products .product-desc .product-title{
-    margin-top: 10px;
-    font-family: "Poppins";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 30px;
-}
-
-.products-page .products .product-desc  .product-desc{
-    margin-top: 2px;
-    font-family: "Poppins";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 36px;
-    color: #e3c08d;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+/* products with neither size nor volume render an empty node — hide it */
+.products-page .products .product-img .product-sale:empty {
+    display: none;
 }
 
 .products-page .products .product-img:before {
-    border-radius: 0px 50px 0px 0px;
     content: "";
-    opacity: 0;
-    transition: opacity 0.5s ease;
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.5);
+    /* clipped to the image well, not the padded box */
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
     z-index: 2;
+    border-radius: 0;
+    opacity: 0;
+    /* --footer-ground at 22% */
+    background: rgba(42, 38, 34, 0.22);
+    transition: opacity var(--ease);
 }
 
-.products-page .products .product-img:hover:before {
-    border-radius: 0px 50px 0px 0px;
+.products-page .products .product-card:hover .product-img:before {
+    border-radius: 0;
     opacity: 1;
 }
 
-.products-page .products .product-img img {
+/** Card action buttons **/
+.products-page .products .shop-btn,
+.products-page .products .view-btn {
     position: absolute;
-    display: block;
-    max-width: 100%;
-    height: auto;
-    z-index: 1;
+    top: auto;
+    /* 10px card inset + 10px inside the image well */
+    bottom: 20px;
+    padding: 0;
+    min-width: 38px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+    opacity: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    box-shadow: none;
+    color: var(--ink);
+    transition: opacity var(--ease), background-color var(--ease),
+        border-color var(--ease);
 }
 
 .products-page .products .shop-btn {
-    position: absolute;
-    padding: 20px;
-    top: 217px;
-    width: 64px;
-    height: 46px;
-    left: 105px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    cursor: pointer;
-    z-index: 3;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    background: rgb(198 0 255 / 66% );
-    border: 2px solid #d7b686;
-    border-radius: 10px;
-    font-family: "Poppins";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 10px;
-    line-height: 15px;
-    color: #f8f8ff;
-}
-
-.products-page .products .product-img:hover .shop-btn {
-    opacity: 1;
-}
-
-.products-page .products .product-img:hover .view-btn {
-    opacity: 1;
+    left: auto;
+    right: 20px;
 }
 
 .products-page .products .view-btn {
-    position: absolute;
-    top: 223px;
-    padding: 5px;
-    min-width: 40px;
-    width: 40px;
-    height: 40px;
+    left: auto;
+    right: 68px;
+}
+
+.products-page .products .shop-btn:hover,
+.products-page .products .view-btn:hover {
+    background: var(--surface-alt);
+    border-color: var(--ink-muted);
+}
+
+.products-page .products .product-card:hover .shop-btn,
+.products-page .products .product-card:hover .view-btn {
+    opacity: 1;
+}
+
+/* keyboard users get the actions without a pointer */
+.products-page .products .shop-btn:focus-visible,
+.products-page .products .view-btn:focus-visible {
+    opacity: 1;
+}
+
+.products-page .products .shop-btn img {
+    width: 17px;
+    height: 17px;
+    filter: brightness(0) opacity(0.82);
+}
+
+.products-page .products .view-btn .MuiSvgIcon-root {
+    font-size: 19px;
+}
+
+.products-page .products .view-btn .MuiBadge-badge {
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background-color: var(--accent);
+    color: var(--surface);
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+/** Card content — fills the remaining height **/
+.products-page .products .product-card .product-info {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 16px 18px 18px;
+    border-top: 1px solid var(--line);
+}
+
+.products-page .products .product-info .product-title {
+    margin: 0;
+    width: 100%;
+    font-family: var(--font-serif);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.3;
+    color: var(--ink);
+    /* long names clamp to 2 lines — full text stays in the DOM */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}
+
+.products-page .products .product-info .product-text {
+    margin: 0;
+    width: 100%;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12.5px;
+    line-height: 1.6;
+    letter-spacing: 0.1px;
+    color: var(--ink-muted);
+    /* CSS clamp, not a JS slice — screen readers still get the whole string */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}
+
+.products-page .products .product-info .product-price {
+    margin-top: auto;
+    padding-top: 12px;
+    width: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
     align-items: center;
-    cursor: pointer;
-    z-index: 3;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 50%;
+    gap: 6px;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.4;
+    letter-spacing: 0.4px;
+    color: var(--ink);
+}
+
+/* the filled coin glyph was replaced by a typographic mark, matching
+   the way New Arrivals already prints its price */
+.products-page .products .product-info .product-price .price-mark {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    color: var(--ink-muted);
+}
+
+.products-page .products .product-info .product-price .MuiSvgIcon-root {
+    font-size: 17px;
+    color: var(--ink-muted);
+}
+
+/** Icon normalisation — one small scale, --ink-muted by default,
+    --accent reserved for hover / active. No filled black glyphs. **/
+.products-page .products .single-button-search .MuiSvgIcon-root {
+    font-size: 15px;
+}
+
+.products-page .products .pagination-section .MuiSvgIcon-root {
+    font-size: 13px;
+    color: var(--ink-muted);
+}
+
+/* hairline stars: both layers are the same outlined glyph, distinguished
+   only by colour, so half-precision still reads. No rating value or
+   precision prop is changed. */
+.products-page .chosen-product .rating-box .MuiRating-root {
+    font-size: 19px;
+}
+
+.products-page .chosen-product .rating-box .MuiRating-iconFilled {
+    color: var(--accent);
+}
+
+.products-page .chosen-product .rating-box .MuiRating-iconEmpty {
+    color: var(--line);
+}
+
+.products-page .chosen-product .rating-box .evaluation-box .product-view {
+    gap: 0;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.6px;
+    color: var(--ink-muted);
+}
+
+.products-page .chosen-product .rating-box .evaluation-box .MuiSvgIcon-root {
+    font-size: 17px;
+    color: var(--ink-muted);
 }
 
 /** Pagination **/
@@ -264,7 +528,7 @@
     height: 147px;
     display: flex;
     justify-content: center;
-    align-items: center;     
+    align-items: center;
 }
 
 .products-page .products .pagination-section {
@@ -274,6 +538,54 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+
+.products-page .products .pagination-section .MuiPaginationItem-root {
+    border-radius: 2px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.6px;
+    color: var(--ink-muted);
+}
+
+.products-page .products .pagination-section .MuiPaginationItem-root.Mui-selected {
+    background: var(--ink);
+    color: var(--surface);
+}
+
+/** RESPONSIVE **/
+@media (max-width: 900px) {
+    .products-page .products .top-text {
+        margin-top: 52px;
+        gap: 22px;
+    }
+
+    .products-page .products .top-text p {
+        font-size: 34px;
+    }
+
+    .products-page .products .single-search-big-box {
+        flex: 1 1 100%;
+    }
+
+    .products-page .products .product-wrapper {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 560px) {
+    .products-page .products .dishes-filter-section {
+        justify-content: flex-start;
+    }
+
+    .products-page .products .dishes-filter-section .dishes-filter-box {
+        justify-content: flex-start;
+    }
+
+    .products-page .products .product-wrapper {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 /** Brands Logo **/
@@ -354,12 +666,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.products-page .products .css-1p7b7rs-MuiBadge-badge {
-    position: absolute;
-    top: 26%;
-    right: 15%;
-}
-
 /** Chosen product **/
 /** ChosenProduct **/
 
@@ -377,25 +683,38 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 26px;
   margin-top: 80px;
   margin-bottom: 150px;
 }
 
+/* same image-well method as the cards: 10px inset, neutral ground,
+   fixed ratio, cover + centre */
 .products-page .chosen-product .chosen-product-slider {
-  width: 48%;
-  height: 480px;
-  background: #ffffff;
-  box-shadow: 9px 13px 14px 5px rgba(0, 0, 0, 0.25),
-    inset -1px 2px 10px 3px rgba(0, 0, 0, 0.25);
-  border-radius: 16px;
+  flex: 0 1 46%;
+  width: 46%;
+  height: auto;
+  box-sizing: border-box;
+  aspect-ratio: 4 / 5;
+  padding: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: none;
+  border-radius: 2px;
   overflow: hidden;
 }
 
 .products-page .chosen-product .chosen-product-slider .swiper-area {
-  --swiper-navigation-color: #fff;
-  --swiper-pagination-color: #fff;
+  --swiper-navigation-color: var(--surface);
+  --swiper-pagination-color: var(--surface);
   width: 100%;
-  height: 1020px;
+  /* was a fixed 1020px inside a 480px box, which is what stretched
+     every detail photo out of its natural proportions */
+  height: 100%;
+  background: var(--surface-alt);
+  overflow: hidden;
 }
 
 .products-page
@@ -403,19 +722,28 @@
   .chosen-product-slider
   .swiper-area
   .slider-image {
+  display: block;
   width: 100%;
   height: 100%;
+  /* the missing declaration: without it every photo was scaled
+     non-uniformly to fill the slide box */
+  object-fit: cover;
+  object-position: center;
 }
 
+/* height was pinned to 480px to match the old fixed-height slider;
+   the slider is now ratio-driven, so this follows its content */
 .products-page .chosen-product .chosen-product-info {
-  padding: 30px 40px;
-  width: 49%;
-  height: 480px;
+  padding: 30px 34px;
+  flex: 1 1 380px;
+  width: auto;
+  min-width: 0;
+  height: auto;
   display: flex;
-  background: #ffffff;
-  box-shadow: 9px 13px 14px 5px rgba(0, 0, 0, 0.25),
-    inset -1px 2px 10px 3px rgba(0, 0, 0, 0.25);
-  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: none;
+  border-radius: 2px;
 }
 
 .products-page .chosen-product .chosen-product-info .info-box {

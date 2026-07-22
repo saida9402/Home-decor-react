@@ -113,7 +113,7 @@
 //                                     <Button
 //                                       className="single-button-search"
 //                                       variant="contained"
-//                                       endIcon={<SearchIcon />}
+//                                       endIcon={<SearchOutlinedIcon />}
 //                                       onClick={searchProductHandler}
 //                                     >
 //                                         Search
@@ -356,14 +356,13 @@
 // }
 
 import { Box, Button, Container, Stack } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import Badge from "@mui/material/Badge";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import { Dispatch } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
@@ -375,8 +374,67 @@ import { ChangeEvent, useEffect, useState } from "react";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import { serverApi } from "../../../lib/config";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
+
+/** URL QUERY SYNC **/
+const PAGE_LIMIT = 8;
+const PAGE_MAX = 10000;
+const SEARCH_MAX = 100;
+const DEFAULT_ORDER = "createdAt";
+const DEFAULT_COLLECTION = ProductCollection.HOME;
+const ALLOWED_ORDERS: string[] = [
+  "createdAt",
+  "productPrice",
+  "productViews",
+];
+
+const isProductCollection = (value: string): value is ProductCollection =>
+  (Object.values(ProductCollection) as string[]).includes(value);
+
+/** Builds a fully validated inquiry from a query string. Anything missing or
+ * malformed falls back to the default, so invalid input never reaches the API. */
+const parseInquiry = (locationSearch: string): ProductInquiry => {
+  const params = new URLSearchParams(locationSearch);
+
+  const rawCollection = params.get("collection");
+  const productCollection =
+    rawCollection && isProductCollection(rawCollection)
+      ? rawCollection
+      : DEFAULT_COLLECTION;
+
+  let page = 1;
+  const rawPage = params.get("page");
+  if (rawPage && /^[0-9]+$/.test(rawPage)) {
+    const parsed = Number(rawPage);
+    if (parsed >= 1 && parsed <= PAGE_MAX) page = parsed;
+  }
+
+  const rawOrder = params.get("order");
+  const order =
+    rawOrder && ALLOWED_ORDERS.includes(rawOrder) ? rawOrder : DEFAULT_ORDER;
+
+  const rawSearch = params.get("search");
+  const search = rawSearch ? rawSearch.trim().slice(0, SEARCH_MAX) : "";
+
+  return { page, limit: PAGE_LIMIT, order, productCollection, search };
+};
+
+const buildQuery = (inquiry: ProductInquiry): string => {
+  const params = new URLSearchParams();
+  params.set("collection", inquiry.productCollection ?? DEFAULT_COLLECTION);
+  params.set("page", String(inquiry.page));
+  params.set("order", inquiry.order);
+  if (inquiry.search) params.set("search", inquiry.search);
+  return params.toString();
+};
+
+const sameInquiry = (a: ProductInquiry, b: ProductInquiry): boolean =>
+  a.page === b.page &&
+  a.limit === b.limit &&
+  a.order === b.order &&
+  a.productCollection === b.productCollection &&
+  (a.search || "") === (b.search || "");
 
 /** REDUX SLICE & SELECTOR **/
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -394,16 +452,32 @@ export default function Products(props: ProductsProps) {
   const { onAdd } = props;
   const { setProducts } = actionDispatch(useDispatch());
   const { products } = useSelector(productsRetriever);
-  const [productSearch, setProductSearch] = useState<ProductInquiry>({
-    page: 1,
-    limit: 8,
-    order: "createdAt",
-    productCollection: ProductCollection.HOME, // 🔥 DEFAULT COLLECTION YANGILANDI
-    search: "",
-  });
-
-  const [searchText, setSearchText] = useState<string>("");
   const history = useHistory();
+  const location = useLocation();
+
+  // Initial state is derived from the URL synchronously, so the very first
+  // fetch already reflects the query string instead of the defaults.
+  const [productSearch, setProductSearch] = useState<ProductInquiry>(() =>
+    parseInquiry(location.search)
+  );
+  const [searchText, setSearchText] = useState<string>(
+    () => parseInquiry(location.search).search || ""
+  );
+
+  // Single place where state and the URL are updated together.
+  const applyInquiry = (next: ProductInquiry) => {
+    setProductSearch(next);
+    history.push({ pathname: location.pathname, search: buildQuery(next) });
+  };
+
+  // Keeps browser back/forward working: the view follows location.search.
+  useEffect(() => {
+    const fromUrl = parseInquiry(location.search);
+    setProductSearch((prev) => (sameInquiry(prev, fromUrl) ? prev : fromUrl));
+    setSearchText((prev) =>
+      prev === (fromUrl.search || "") ? prev : fromUrl.search || ""
+    );
+  }, [location.search]);
 
   useEffect(() => {
     const product = new ProductService();
@@ -414,33 +488,26 @@ export default function Products(props: ProductsProps) {
   }, [productSearch]);
 
   useEffect(() => {
-    if (searchText === "") {
-      productSearch.search = "";
-      setProductSearch({ ...productSearch });
+    if (searchText === "" && productSearch.search !== "") {
+      applyInquiry({ ...productSearch, search: "" });
     }
   }, [searchText]);
 
   /** HANDLERS **/
   const searchCollectionHandler = (collection: ProductCollection) => {
-    productSearch.page = 1;
-    productSearch.productCollection = collection;
-    setProductSearch({ ...productSearch });
+    applyInquiry({ ...productSearch, page: 1, productCollection: collection });
   };
 
   const serchOrderHandler = (order: string) => {
-    productSearch.page = 1;
-    productSearch.order = order;
-    setProductSearch({ ...productSearch });
+    applyInquiry({ ...productSearch, page: 1, order });
   };
 
   const searchProductHandler = () => {
-    productSearch.search = searchText;
-    setProductSearch({ ...productSearch });
+    applyInquiry({ ...productSearch, page: 1, search: searchText.trim() });
   };
 
   const paginationHandler = (e: ChangeEvent<any>, value: number) => {
-    productSearch.page = value;
-    setProductSearch({ ...productSearch });
+    applyInquiry({ ...productSearch, page: value });
   };
 
   const choseDishHandler = (id: string) => {
@@ -453,7 +520,7 @@ export default function Products(props: ProductsProps) {
         <Stack flexDirection={"column"} alignItems={"center"}>
           <Stack className={"avatar-big-box"}>
             <Stack className={"top-text"}>
-              <p>Burak Restaurant</p>
+              <p>The Collection</p>
               <Stack className="single-search-big-box">
                 <input
                   type={"search"}
@@ -469,7 +536,7 @@ export default function Products(props: ProductsProps) {
                 <Button
                   className="single-button-search"
                   variant="contained"
-                  endIcon={<SearchIcon />}
+                  endIcon={<SearchOutlinedIcon />}
                   onClick={searchProductHandler}
                 >
                   Search
@@ -607,26 +674,31 @@ export default function Products(props: ProductsProps) {
                             style={{ display: "flex" }}
                           />
                         </Button>
-                        <Button className={"view-btn"} sx={{ right: "36px" }}>
+                        <Button className={"view-btn"}>
                           <Badge
                             badgeContent={product.productViews}
                             color="secondary"
                           >
-                            <RemoveRedEyeIcon
+                            <VisibilityOutlinedIcon
                               sx={{
                                 color:
-                                  product.productViews === 0 ? "gray" : "white",
+                                  product.productViews === 0
+                                    ? "var(--line)"
+                                    : "var(--ink-muted)",
                               }}
                             />
                           </Badge>
                         </Button>
                       </Stack>
-                      <Box className={"product-desc"}>
+                      <Box className={"product-info"}>
                         <span className={"product-title"}>
                           {product.productName}
                         </span>
-                        <div className={"product-desc"}>
-                          <MonetizationOnIcon />
+                        {product.productDesc ? (
+                          <p className={"product-text"}>{product.productDesc}</p>
+                        ) : null}
+                        <div className={"product-price"}>
+                          <span className={"price-mark"}>$</span>
                           {product.productPrice}
                         </div>
                       </Box>
@@ -650,8 +722,8 @@ export default function Products(props: ProductsProps) {
               renderItem={(item) => (
                 <PaginationItem
                   components={{
-                    previous: ArrowBackIcon,
-                    next: ArrowForwardIcon,
+                    previous: ArrowBackIosNewIcon,
+                    next: ArrowForwardIosIcon,
                   }}
                   {...item}
                   color={"secondary"}
