@@ -55,37 +55,48 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
     } catch (err) {
         console.log(err);
         sweetErrorHandling(err).then();
-        
+
     }
-    };    
+    };
 
   return(
     <TabPanel value={"2"}>
-        <Stack>
+        <Stack className={"order-list"}>
             {processOrders?.map((order: Order) => {
                 return (
-                    <Box key={order._id} className={"order-main-box"}>
+                    <Box key={order._id} className={"order-main-box is-process"}>
+                        <Box className={"order-card-head"}>
+                            <span className={"order-status-label"}>In progress</span>
+                            <span className={"order-date"}>
+                              {moment(order.createdAt).format("D MMM YYYY")}
+                            </span>
+                        </Box>
+
                         <Box className={"order-box-scroll"}>
                             {order?.orderItems?.map((item: OrderItem) => {
-                                const product: Product = order.productData.filter(
+                                const product: Product | undefined =
+                                  order.productData?.find(
                                     (ele: Product) => item.productId === ele._id
-                                )[0];
-                                const imagePath = `${serverApi}/${product.productImages[0]}`;
+                                  );
+                                if (!product) return null;
+                                const imagePath = product.productImages?.[0]
+                                  ? `${serverApi}/${product.productImages[0]}`
+                                  : undefined;
                                 return (
                                     <Box key={item._id} className={"order-name-price"}>
-                                        <img 
-                                          src={imagePath} 
-                                          className={"order-dish-img"}
-                                        />
+                                        <div className={"order-dish-img"}>
+                                          {imagePath ? (
+                                            <img src={imagePath} alt="" />
+                                          ) : null}
+                                        </div>
                                         <p className={"title-dish"}>{product.productName}</p>
                                         <Box className={"price-box"}>
-                                            <p>${item.itemPrice}</p>
-                                            <img src={"/icons/close.svg"} />
-                                            <p>{item.itemQuantity}</p>
-                                            <img src={"/icons/pause.svg"} />
-                                            <p style={{ marginLeft: "15px"}}>
+                                            <span className={"unit"}>${item.itemPrice}</span>
+                                            <span className={"times"}>&times;</span>
+                                            <span className={"qty"}>{item.itemQuantity}</span>
+                                            <span className={"line-total"}>
                                                 ${item.itemQuantity * item.itemPrice}
-                                            </p>
+                                            </span>
                                         </Box>
                                     </Box>
                                 );
@@ -94,44 +105,37 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
 
                         <Box className={"total-price-box"}>
                             <Box className={"box-total"}>
-                                <p>Product pice</p>
-                                <p>${order.orderTotal - order.orderDelivery}</p>
-                                <img src={"/icons/plus.svg"} style={{ marginLeft: "20px"}} />
-                                <p>delivery cost</p>
-                                <p>${order.orderDelivery}</p>
-                                <img
-                                  src={"/icons/pause.svg"}
-                                  style={{ marginLeft: "20px"}}
-                                />
-                                <p>Total</p>
-                                <p>${order.orderTotal}</p>
+                                <span className={"t-label"}>Subtotal</span>
+                                <span className={"t-value"}>
+                                  ${order.orderTotal - order.orderDelivery}
+                                </span>
+                                <span className={"t-label"}>Delivery</span>
+                                <span className={"t-value"}>${order.orderDelivery}</span>
+                                <span className={"t-label is-strong"}>Total</span>
+                                <span className={"t-value is-strong"}>${order.orderTotal}</span>
                             </Box>
-                            <p className={"data-compl"}>
-                                {moment().format("YY-MM-DD HH:mm")}
-                            </p>
-                            <Button
-                             className={"verify-button"}
-                             value={order._id}
-                             onClick={finishOrderHandler}>
-                                Verify to Fulfil
-                            </Button>
+                            <Box className={"order-actions"}>
+                              <Button
+                               variant="contained"
+                               className={"verify-button"}
+                               value={order._id}
+                               onClick={finishOrderHandler}>
+                                  Verify to Fulfil
+                              </Button>
+                            </Box>
                         </Box>
                     </Box>
                 );
             })}
 
-            {!processOrders || (processOrders.length === 0 && (
-                <Box
-                 display={"flex"} 
-                 flexDirection={"row"} 
-                 justifyContent={"center"}
-                >
-                    <img
-                      src={"/icons/noimage-list.svg"}
-                      style={{width: 300, height: 300 }} 
-                    />
+            {(!processOrders || processOrders.length === 0) && (
+                <Box className={"order-empty"}>
+                  <span className={"order-empty-title"}>Nothing in progress</span>
+                  <p className={"order-empty-text"}>
+                    Paid orders on their way to you will appear here.
+                  </p>
                 </Box>
-            ))}
+            )}
         </Stack>
     </TabPanel>
   );

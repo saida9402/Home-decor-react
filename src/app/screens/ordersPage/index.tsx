@@ -3,7 +3,7 @@ import { Box, Container, Input, Stack } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
-import LocatiionOnIcon from "@mui/icons-material/LocationOn";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import PausedOrders from "./PausedOrders";
 import ProcessOrders from "./ProcessOrders";
 import FinishedOrders from "./FinishedOrders";
@@ -68,9 +68,10 @@ export default function OrdersPage() {
     <div className={"order-page"}>
       <Container className="order-container">
         <Stack className={"order-left"}>
+          <Box className={"order-page-title"}>Your orders</Box>
           <TabContext value={value}>
             <Box className={"order-nav-frame"}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider"}}>
+              <Box>
                 <Tabs
                   value={value}
                   onChange={handleChange}
@@ -95,21 +96,23 @@ export default function OrdersPage() {
           <Box className={"order-info-box"}>
             <Box className={"member-box"}>
               <div className={"order-user-image"}>
-                <img 
+                <img
                   src={
                     authMember?.memberImage
-                       ? `${serverApi}/${authMember.memberImage}` 
+                       ? `${serverApi}/${authMember.memberImage}`
                        : "/icons/default-user.svg"
-                      } 
+                      }
                   className={"order-user-avatar"}
+                  alt=""
                 />
                 <div className={"order-user-icon-box"}>
                   <img
-                     src={authMember?.memberType === MemberType.RESTAURANT
-                            ? "/icons/restaurant.svg" 
+                     src={authMember?.memberType === MemberType.SELLER
+                            ? "/icons/restaurant.svg"
                             : "/icons/user-badge.svg"
-                          } 
+                          }
                      className={"order-user-prof-img"}
+                     alt=""
                   />
                 </div>
               </div>
@@ -123,54 +126,62 @@ export default function OrdersPage() {
             <Box className={"liner"}></Box>
             <Box className={"order-user-address"}>
               <div style={{ display: "flex"}}>
-                <LocatiionOnIcon />
+                <LocationOnOutlinedIcon />
               </div>
               <div className={"spec-address-text"}>
                {authMember?.memberAddress
-                   ? authMember.memberAddress 
-                   : "Do not exist"}
+                   ? authMember.memberAddress
+                   : "No address on file"}
               </div>
             </Box>
           </Box>
 
           <Box className={"order-info-box"}>
+            <Box className={"pay-head"}>
+              <span className={"pay-title"}>Payment</span>
+            </Box>
             <Box className={"member-box"}>
                 <Box className={"card-input"}>
                   <Input
                     inputProps={{ pattern: "[0-9 ]*" }}
-                    placeholder="Card number: 5243 4090 2002 7495"
+                    placeholder="Card number"
                     size="medium"
                     style={{ width: '100%' }}
                   />
                 </Box>
                 <Box className={"card-date-box"}>
                   <Box className={"card-half-input"}>
-                    <Input placeholder="07/24" size="small" />
+                    <Input placeholder="MM/YY" size="small" />
                   </Box>
                   <Box className={"card-half-input"}>
-                    <Input placeholder="CVV:010" size="small" />
+                    <Input placeholder="CVV" size="small" />
                   </Box>
                 </Box>
                 <Box className={"card-input"}>
                   <Input
-                    placeholder="Justin Robertson"
+                    placeholder="Name on card"
                     size="medium"
                     style={{ width: '100%' }}
                   />
                 </Box>
             </Box>
+            {/* the form is presentational only — nothing is captured,
+                validated or transmitted, and no endpoint exists yet */}
+            <p className={"pay-note"}>
+              Card payment is not enabled yet. These fields are inactive.
+            </p>
             <Box className={"cards-box"} >
               <Box>
-                <img src={"/icons/western-card.svg"} />
+                <img src={"/icons/western-card.svg"} alt="" />
               </Box>
               <Box>
-                <img src={"/icons/paypal-card.svg"} />
+                <img src={"/icons/paypal-card.svg"} alt="" />
               </Box>
               <Box>
-                <img src={"/icons/visa-card.svg"} />
+                <img src={"/icons/visa-card.svg"} alt="" />
               </Box>
               <Box>
-                <img src={"/icons/master-card.svg"} />
+                <img src={"/icons/master-card.svg"} alt="" />
               </Box>
             </Box>
           </Box>

@@ -1,56 +1,512 @@
+/* ============================================================
+   ORDERS PAGE
+   Tokens come from navbar.css :root. Order cards read as calm
+   records: hairline borders, generous padding, serif product
+   names, sans metadata, prices on one tabular baseline.
+   ============================================================ */
+
 .order-page {
     width: 100%;
     height: auto;
-    background: #f8f8ff;
+    background: var(--surface);
     display: flex;
 }
 
 .order-page .order-container {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 88px;
+    padding-bottom: 104px;
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
 }
 
 .order-page .order-left {
-    width: 860px;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
     height: auto;
 }
 
 .order-page .order-right {
-    width: 360px;
+    flex: 0 0 340px;
+    min-width: 0;
+    width: auto;
     height: auto;
-    margin-top: 86px;
-    margin-left: 30px;
+    margin-top: 0;
+    margin-left: 0;
     display: flex;
     flex-direction: column;
+    gap: 26px;
 }
 
-.order-page .order-right .order-info-box {
-    width: 360px;
+/* --- page heading ------------------------------------------------ */
+
+.order-page .order-left .order-page-title {
+    margin: 0 0 30px;
+    font-family: var(--font-serif);
+    font-style: normal;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: 1.2px;
+    color: var(--ink);
+}
+
+.order-page .order-left .order-page-title::after {
+    display: block;
+    content: "";
+    margin: 16px 0 0;
+    width: 26px;
+    border-bottom: 1px solid var(--accent);
+}
+
+/* ============================================================
+   TABS — flat row on one hairline baseline.
+   Stable MUI API classes, not emotion hashes.
+   ============================================================ */
+
+.order-page .order-left .order-nav-frame {
+    width: 100%;
     height: auto;
-    padding: 20px;
+    display: block;
+    border-bottom: 1px solid var(--line);
+}
+
+.order-page .order-left .order-nav-frame .table-list {
+    min-height: 0;
+    display: block;
+}
+
+.order-page .order-nav-frame .MuiTabs-flexContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 34px;
+    flex-wrap: wrap;
+}
+
+.order-page .order-nav-frame .MuiTab-root {
+    min-width: 0;
+    min-height: 0;
+    padding: 0 0 14px;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    transition: color var(--ease);
+}
+
+.order-page .order-nav-frame .MuiTab-root:hover {
+    color: var(--ink);
+}
+
+.order-page .order-nav-frame .MuiTab-root.Mui-selected {
+    color: var(--ink);
+}
+
+.order-page .order-nav-frame .MuiTabs-indicator {
+    height: 1px;
+    background-color: var(--accent);
+}
+
+.order-page .order-main-content {
+    width: 100%;
+    height: auto;
+}
+
+.order-page .MuiTabPanel-root {
+    padding: 30px 0 0;
+}
+
+.order-page .order-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ============================================================
+   ORDER CARD
+   Status is told by a letterspaced label and a hairline accent
+   edge — never a coloured block.
+   ============================================================ */
+
+.order-page .order-main-content .order-main-box {
+    position: relative;
+    width: 100%;
+    max-height: none;
+    margin-bottom: 0;
+    padding: 24px 26px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--line);
+    border-radius: 2px;
+    box-shadow: none;
+    transition: border-color var(--ease);
+}
+
+.order-page .order-main-content .order-main-box.is-process {
+    border-left-color: var(--accent);
+}
+
+.order-page .order-main-content .order-main-box.is-finish {
+    border-left-color: var(--ink-muted);
+}
+
+.order-page .order-main-box .order-card-head {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.order-page .order-main-box .order-status-label {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+.order-page .order-main-box.is-process .order-status-label {
+    color: var(--accent);
+}
+
+.order-page .order-main-box .order-date {
+    flex: 0 0 auto;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11.5px;
+    line-height: 1.4;
+    letter-spacing: 0.4px;
+    color: var(--ink-muted);
+}
+
+/* --- item rows --------------------------------------------------- */
+
+.order-page .order-main-content .order-main-box .order-box-scroll {
+    position: relative;
+    width: 100%;
+    min-height: 0;
+    max-height: 260px;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+}
+
+.order-page .order-main-content .order-main-box .order-box-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.order-page .order-main-content .order-main-box .order-box-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.order-page .order-main-content .order-main-box .order-box-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--line);
+    border-radius: 3px;
+}
+
+.order-page .order-box-scroll .order-name-price {
+    position: relative;
+    height: auto;
+    margin: 0;
+    padding: 16px 0;
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.order-page .order-box-scroll .order-name-price:last-child {
+    border-bottom: none;
+}
+
+.order-page .order-box-scroll .order-name-price .order-dish-img {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    overflow: hidden;
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+}
+
+.order-page .order-box-scroll .order-name-price .order-dish-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.order-page .order-box-scroll .order-name-price .title-dish {
+    position: relative;
+    width: auto;
+    min-width: 0;
+    height: auto;
+    margin: 0;
+    margin-left: 0;
+    font-family: var(--font-serif);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.3;
+    color: var(--ink);
+    /* CSS clamp, not a JS slice */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}
+
+.order-page .order-box-scroll .order-name-price .price-box {
+    position: relative;
+    max-width: none;
+    height: auto;
+    margin-left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12.5px;
+    letter-spacing: 0.3px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-muted);
+}
+
+.order-page .order-box-scroll .order-name-price .price-box .times {
+    opacity: 0.62;
+}
+
+.order-page .order-box-scroll .order-name-price .price-box .line-total {
+    min-width: 62px;
+    text-align: right;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink);
+}
+
+/* --- totals ------------------------------------------------------- */
+
+.order-page .order-main-content .order-main-box .total-price-box {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding-top: 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    border-top: 1px solid var(--line);
+    border-radius: 0;
+    overflow: visible;
+}
+
+.order-page .order-main-content .order-main-box .total-price-box .box-total {
+    position: relative;
+    max-width: none;
+    height: auto;
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: baseline;
+    column-gap: 16px;
+    row-gap: 6px;
+    justify-content: start;
+}
+
+.order-page .total-price-box .box-total .t-label {
+    margin-left: 0;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+.order-page .total-price-box .box-total .t-value {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.4;
+    letter-spacing: 0.3px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    color: var(--ink-muted);
+}
+
+.order-page .total-price-box .box-total .t-label.is-strong {
+    color: var(--ink);
+}
+
+.order-page .total-price-box .box-total .t-value.is-strong {
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--ink);
+}
+
+/* --- actions ------------------------------------------------------ */
+
+.order-page .total-price-box .order-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.order-page .order-main-content .total-price-box .MuiButton-root {
+    min-width: 0;
+    max-height: none;
+    padding: 10px 24px;
+    border-radius: 2px;
+    box-shadow: none;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    transition: background-color var(--ease), border-color var(--ease),
+        color var(--ease);
+}
+
+/* ghost */
+.order-page .order-main-content .total-price-box .cancel-button {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-muted);
+}
+
+.order-page .order-main-content .total-price-box .cancel-button:hover {
+    background: transparent;
+    border-color: var(--ink);
+    color: var(--ink);
+    box-shadow: none;
+}
+
+/* solid */
+.order-page .order-main-content .total-price-box .pay-button,
+.order-page .order-main-content .total-price-box .verify-button {
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    color: var(--surface);
+    box-shadow: none;
+}
+
+.order-page .order-main-content .total-price-box .pay-button:hover,
+.order-page .order-main-content .total-price-box .verify-button:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--surface);
+    box-shadow: none;
+}
+
+/* --- empty state -------------------------------------------------- */
+
+.order-page .order-empty {
+    width: 100%;
+    padding: 76px 24px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #f8f8ff;
-    box-shadow: 15px 14px 4px rgba(207, 205, 205, 0.948), inset -1px 0px 16px 13px rgba(185, 184, 186, 0.924);
-    border-radius: 16px;
-    margin-bottom: 25px;
-}   
+    gap: 10px;
+    text-align: center;
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+}
+
+.order-page .order-empty .order-empty-title {
+    font-family: var(--font-serif);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 1.3;
+    color: var(--ink);
+}
+
+.order-page .order-empty .order-empty-text {
+    margin: 0;
+    max-width: 320px;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-muted);
+}
+
+/* ============================================================
+   RIGHT RAIL — member card + payment panel
+   ============================================================ */
+
+.order-page .order-right .order-info-box {
+    width: 100%;
+    height: auto;
+    padding: 26px 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    box-shadow: none;
+    margin-bottom: 0;
+}
 
 .order-page .order-right .order-info-box .member-box {
     display: flex;
     flex-direction: column;
     align-items: center;
-}   
+}
 
 .order-page .order-right .order-info-box .liner {
     width: 100%;
-    border: 1px solid #a1a1a1;
-    margin-top: 40px;
-    margin-bottom: 8px;
-}   
+    border: none;
+    border-top: 1px solid var(--line);
+    margin-top: 22px;
+    margin-bottom: 18px;
+}
 
 .order-page .order-info-box .order-user-image {
     position: relative;
@@ -60,292 +516,254 @@
 }
 
 .order-page .order-info-box .order-user-image .order-user-avatar {
-    width: 117px;
-    height: 112px;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    border-radius: 37px;
+    width: 104px;
+    height: 104px;
+    object-fit: cover;
+    object-position: center;
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    filter: none;
 }
 
 .order-page .order-info-box .order-user-icon-box {
     position: absolute;
-    padding: 5px;
-    width: 30px;
-    height: 30px;
-    top: 81%;
-    right: 0;
+    padding: 0;
+    width: 28px;
+    height: 28px;
+    top: auto;
+    right: -8px;
+    bottom: -8px;
     display: flex;
-    background: rgba(0, 0, 0, 0.33);
-    border-radius: 37px;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 2px;
 }
 
 .order-page .order-user-icon-box .order-user-prof-img {
-    filter: brightness(0) invert(1);
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) opacity(0.5);
 }
 
 .order-page .order-info-box .order-user-name {
-    margin-top: 10px;
-    font-family: "Commissioner";
+    margin-top: 18px;
+    font-family: var(--font-serif);
     font-style: normal;
-    font-weight: 500;
-    font-size: 28px;
-    line-height: 36px;
-    color: #08090d;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: 0.4px;
+    color: var(--ink);
+    text-align: center;
+    overflow-wrap: anywhere;
 }
 
 .order-page .order-info-box .order-user-prof {
-    font-family: "Commissioner";
+    margin-top: 9px;
+    font-family: var(--font-sans);
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 36px;
-    color: #a1a1a1;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--accent);
 }
 
 .order-page .order-info-box .order-user-address {
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.order-page .order-info-box .order-user-address .MuiSvgIcon-root {
+    font-size: 16px;
+    color: var(--ink-muted);
 }
 
 .order-page .order-info-box .spec-address-text {
-    margin-left: 5px;
-    font-family: "DM Sans";
+    margin-left: 0;
+    min-width: 0;
+    font-family: var(--font-sans);
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    color: #616164;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink-muted);
+    overflow-wrap: anywhere;
+}
+
+/* --- payment panel (presentational only) --------------------------- */
+
+.order-page .order-info-box .pay-head {
+    padding-bottom: 16px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--line);
+}
+
+.order-page .order-info-box .pay-head .pay-title {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.order-page .order-info-box .card-input,
+.order-page .order-info-box .card-half-input {
+    margin-top: 12px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.5;
+    letter-spacing: 0;
+    color: var(--ink);
+    transition: border-color var(--ease);
 }
 
 .order-page .order-info-box .card-input {
-    margin-top: 10px;
-    padding: 10px;
     width: 100%;
-    height: 40px;
-    background: #f5f5f5;
-    border-radius: 10px;
-    font-family: "Nunito";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22px;
-    border: 0.5px solid #b3a6a6;
-    letter-spacing: -0.02em;
-    color: #434141;
+}
+
+.order-page .order-info-box .card-half-input {
+    width: 49%;
+}
+
+.order-page .order-info-box .card-input:focus-within,
+.order-page .order-info-box .card-half-input:focus-within {
+    border-color: var(--accent);
 }
 
 .order-page .order-info-box .card-date-box {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
+/* strip the MUI Input underline; the wrapper carries the hairline */
+.order-page .order-info-box .MuiInput-root {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink);
+}
 
-.order-page .order-info-box .card-half-input {
-    margin-top: 10px;
-    padding: 10px;
-    width: 49%;
-    height: 40px;
-    background: #f5f5f5;
-    border-radius: 10px;
-    font-family: "Nunito";
+.order-page .order-info-box .MuiInput-root:before,
+.order-page .order-info-box .MuiInput-root:after {
+    display: none;
+}
+
+.order-page .order-info-box .MuiInput-input::placeholder {
+    color: var(--ink-muted);
+    opacity: 0.72;
+}
+
+.order-page .order-info-box .pay-note {
+    margin: 16px 0 0;
+    font-family: var(--font-sans);
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 22px;
-    border: 0.5px solid #b3a6a6;
-    letter-spacing: -0.02em;
-    color: #434141;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: var(--ink-muted);
 }
 
 .order-page .order-info-box .cards-box {
-    margin-top: 35px;
-    width: 80%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    border-bottom: 1px solid #f8f8ff;
-}
-
-
-.order-page .order-left .order-nav-frame {
+    margin-top: 20px;
+    padding-top: 18px;
     width: 100%;
-    height: 60px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    border-bottom: 1px solid #f8f8ff;
-}
-
-.order-page .order-left .order-nav-frame .table-list {
-    display: flex;
-    justify-content: space-between;
-}
-
-.order-page .css-1gsv261 {
-    width: 75%;
-}
-
-.order-page .css-heg063-MuiTabs-flexContainer {
-    justify-content: space-between;
-}
-
-.order-page .order-main-content {
-    width: 855px;
-    height: auto;
-}
-
-.order-page .css-19kzrtu {
-    padding-top: 24px;
-}
-
-.order-page .order-main-content .order-main-box {
-    position: relative;
-    width: 100%;
-    max-height: 285px;
-    margin-bottom: 25px;
-    background: #f8f8ff;
-    box-shadow: -13px 16px 4px rgba(0, 0, 0, 0.25), inset 0px -3px 20px 11px #18177033;
-    border-radius: 16px;
-}
-
-.order-page .order-main-content .order-main-box .order-box-scroll {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    min-height: 105px;
-    max-height: 205px;
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: scroll;
-}
-
-.order-page .order-main-content .order-main-box .order-box-scroll::-webkit-scrollbar {
-    width: 7px;
-} 
-
-.order-page .order-main-content .order-main-box .order-box-scroll::-webkit-scrollbar-thumb {
-    background-color: #8989db;
-    border-radius: 5px;
-} 
-
-.order-page .order-box-scroll .order-name-price {
-    position: relative;
-    height: 47px;
-    margin-top: 5px;
-    margin-left: 50px;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    border-bottom: none;
+    border-top: 1px solid var(--line);
 }
 
-.order-page .order-box-scroll .order-name-price .order-dish-img {
-    position: relative;
-    height: 47px;
-    width: 50px;
-    border-radius: 29px;
-    background-size: cover;
+.order-page .order-info-box .cards-box img {
+    height: 18px;
+    width: auto;
+    opacity: 0.42;
 }
 
-.order-page .order-box-scroll .order-name-price .title-dish {
-    position: relative;
-    width: 260px;
-    height: 36px;
-    margin-left: 20px;
-    font-family: "Commissioner";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 22px;
-    line-height: 36px;
-    color: #000000;
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+    .order-page .order-container {
+        flex-direction: column;
+        gap: 34px;
+        padding-top: 64px;
+        padding-bottom: 80px;
+    }
+
+    .order-page .order-right {
+        flex: 1 1 auto;
+        width: 100%;
+    }
 }
 
-.order-page .order-box-scroll .order-name-price .price-box {
-    position: relative;
-    max-width: 170px;
-    height: 100%;
-    margin-left: 150px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+@media (max-width: 560px) {
+    .order-page .order-container {
+        padding-top: 48px;
+        padding-bottom: 64px;
+    }
+
+    .order-page .order-left .order-page-title {
+        font-size: 26px;
+    }
+
+    .order-page .order-nav-frame .MuiTabs-flexContainer {
+        gap: 20px;
+    }
+
+    .order-page .order-main-content .order-main-box {
+        padding: 20px 18px;
+    }
+
+    /* rows stack: thumb + name on the first line, prices beneath */
+    .order-page .order-box-scroll .order-name-price {
+        grid-template-columns: 48px minmax(0, 1fr);
+        row-gap: 10px;
+    }
+
+    .order-page .order-box-scroll .order-name-price .order-dish-img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .order-page .order-box-scroll .order-name-price .price-box {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+    }
+
+    .order-page .order-main-content .order-main-box .total-price-box {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .order-page .total-price-box .order-actions .MuiButton-root {
+        flex: 1 1 auto;
+    }
 }
-
-.order-page .order-box-scroll .order-name-price .price-box p {
-    font-family: "Poppins";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 27px;
-    color: #262626;
-}
-
-.order-page .order-main-content .order-main-box .total-price-box {
-    position: relative;
-    width: 100%;
-    height: 41px;
-    margin: 7px -5px 7px -5px ;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    box-sizing: border-box;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.order-page .order-main-content .total-price-box .cancel-button {
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    max-height: 40px;
-}
-
-.order-page .order-main-content .total-price-box .pay-button {
-    background: #56b74d;
-    color: #f8f8ff;
-    border-radius: 10px;
-    max-height: 40px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.order-page .order-main-content .total-price-box .verify-button {
-    background: #0288d1;
-    color: #f8f8ff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px  rgb(0, 0, 0, 0.25);
-}
-
-.order-page .order-main-content .order-main-box .total-price-box .box-total {
-    position: relative;
-    max-width: 535px;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.order-page .total-price-box .box-total p {
-    margin-left: 20px;
-    font-family: "Commissioner";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 36px;
-    color: #000000;
-}
-
-.order-page .total-price-box .box-total .data-compl {
-    font-family: "Commissioner";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 36px;
-    color: #000000;
-}
-
-
-
-
