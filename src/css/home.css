@@ -379,7 +379,7 @@
     align-items: center;
 }
 
-/* scoped override — .homepage .main is shared with ActiveUsers */
+/* scoped override — .homepage .main is shared with NewDishes */
 .homepage .new-products-frame .main {
     margin-top: 0;
 }
@@ -423,6 +423,13 @@
     border-radius: 2px;
     box-shadow: none;
     cursor: pointer;
+    transition: border-color var(--ease), box-shadow var(--ease);
+}
+
+/* soft shadow lift on hover — no colour overlay */
+.homepage .new-products-frame .main .card:hover {
+    border-color: var(--line);
+    box-shadow: 0 16px 34px -22px rgba(42, 38, 34, 0.45);
 }
 
 /* --- image ----------------------------------------------------- */
@@ -467,20 +474,24 @@
     z-index: 2;
     width: auto;
     height: auto;
-    padding: 5px 11px;
+    padding: 4px 10px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--surface);
-    border: 1px solid var(--line);
+    /* quiet label: --surface at 90% + blur, no border, so it reads as a
+       whisper over the photo rather than a stuck-on sticker */
+    background: rgba(247, 244, 239, 0.9);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    border: none;
     border-radius: 2px;
     box-shadow: none;
     font-family: var(--font-sans);
     font-style: normal;
     font-weight: 500;
-    font-size: 9px;
+    font-size: 10px;
     line-height: 1.4;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.4px;
     text-transform: uppercase;
     color: var(--ink-muted);
 }
@@ -509,26 +520,18 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 9px;
-}
-
-.homepage .new-products-frame .product-detail .name-row {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
+    gap: 0;
 }
 
 .homepage .new-products-frame .product-detail .title {
-    flex: 1 1 auto;
+    width: 100%;
     min-width: 0;
-    width: auto;
     font-family: var(--font-serif);
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 400;
     line-height: 1.3;
     color: var(--ink);
+    /* single line, ellipsis */
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -540,14 +543,42 @@
     color: var(--accent);
 }
 
+.homepage .new-products-frame .product-detail .subtitle {
+    margin-top: 4px;
+    width: 100%;
+    min-width: 0;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.1px;
+    color: var(--ink-muted);
+    /* single line, ellipsis */
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* meta shelf: view counter left, price right, on one hairline-topped row */
+.homepage .new-products-frame .product-detail .meta-row {
+    width: 100%;
+    margin-top: 14px;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+}
+
 .homepage .new-products-frame .product-detail .price {
     flex: 0 0 auto;
-    margin-left: 0;
     width: auto;
-    font-family: var(--font-sans);
-    font-size: 14px;
+    font-family: var(--font-serif);
+    font-size: 17px;
     font-weight: 500;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.2px;
     color: var(--ink);
 }
 
@@ -555,9 +586,9 @@
     display: flex;
     align-items: center;
     font-family: var(--font-sans);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 500;
-    letter-spacing: 1.4px;
+    letter-spacing: 1.2px;
     color: var(--ink-muted);
 }
 
@@ -645,7 +676,7 @@
 .homepage .popular-products-frame .cards-frame .card .shop-btn:hover,
 .homepage .new-products-frame .card .card-media .shop-btn:hover {
     background: var(--surface-alt);
-    border-color: var(--ink-muted);
+    border-color: var(--accent);
     box-shadow: none;
 }
 

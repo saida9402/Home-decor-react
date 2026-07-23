@@ -358,7 +358,6 @@
 import { Box, Button, Container, Stack } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import Badge from "@mui/material/Badge";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -545,93 +544,101 @@ export default function Products(props: ProductsProps) {
             </Stack>
           </Stack>
 
-          <Stack className={"dishes-filter-section"}>
-            <Stack className={"dishes-filter-box"}>
-              <Button
-                variant={"contained"}
-                color={
-                  productSearch.order === "createdAt" ? "primary" : "secondary"
-                }
-                className={"order"}
-                onClick={() => serchOrderHandler("createdAt")}
-              >
-                New
-              </Button>
-              <Button
-                variant={"contained"}
-                color={
-                  productSearch.order === "productPrice"
-                    ? "primary"
-                    : "secondary"
-                }
-                className={"order"}
-                onClick={() => serchOrderHandler("productPrice")}
-              >
-                Price
-              </Button>
-              <Button
-                variant={"contained"}
-                color={
-                  productSearch.order === "productViews"
-                    ? "primary"
-                    : "secondary"
-                }
-                className={"order"}
-                onClick={() => serchOrderHandler("productViews")}
-              >
-                Views
-              </Button>
-            </Stack>
-          </Stack>
-
-          {/* 🔥 COLLECTION FILTER – FAQAT 3 TA QOLDIRILDI */}
+          {/* One control bar: collection selects the set, sort modifies it.
+              Both groups keep their original classes, so the shared button
+              skin and active state are untouched — this is position only. */}
           <Stack className={"list-category-section"}>
             <Stack className={"product-category"}>
-              <div className={"category-main"}>
-                <Button
-                  variant={"contained"}
-                  color={
-                    productSearch.productCollection === ProductCollection.HOME
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.HOME)
-                  }
-                >
-                  Home
-                </Button>
+              <div className={"filter-group"}>
+                <span className={"filter-label"}>Collection</span>
+                <div className={"category-main"}>
+                  <Button
+                    variant={"contained"}
+                    color={
+                      productSearch.productCollection === ProductCollection.HOME
+                        ? "primary"
+                        : "secondary"
+                    }
+                    onClick={() =>
+                      searchCollectionHandler(ProductCollection.HOME)
+                    }
+                  >
+                    Home
+                  </Button>
 
-                <Button
-                  variant={"contained"}
-                  color={
-                    productSearch.productCollection ===
-                    ProductCollection.FURNITURE
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.FURNITURE)
-                  }
-                >
-                  Furniture
-                </Button>
+                  <Button
+                    variant={"contained"}
+                    color={
+                      productSearch.productCollection ===
+                      ProductCollection.FURNITURE
+                        ? "primary"
+                        : "secondary"
+                    }
+                    onClick={() =>
+                      searchCollectionHandler(ProductCollection.FURNITURE)
+                    }
+                  >
+                    Furniture
+                  </Button>
 
-                <Button
-                  variant={"contained"}
-                  color={
-                    productSearch.productCollection ===
-                    ProductCollection.TEXTILE
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.TEXTILE)
-                  }
-                >
-                  Textile
-                </Button>
+                  <Button
+                    variant={"contained"}
+                    color={
+                      productSearch.productCollection ===
+                      ProductCollection.TEXTILE
+                        ? "primary"
+                        : "secondary"
+                    }
+                    onClick={() =>
+                      searchCollectionHandler(ProductCollection.TEXTILE)
+                    }
+                  >
+                    Textile
+                  </Button>
+                </div>
               </div>
+
+              <Stack className={"filter-group dishes-filter-section"}>
+                <span className={"filter-label"}>Sort</span>
+                <Stack className={"dishes-filter-box"}>
+                  <Button
+                    variant={"contained"}
+                    color={
+                      productSearch.order === "createdAt"
+                        ? "primary"
+                        : "secondary"
+                    }
+                    className={"order"}
+                    onClick={() => serchOrderHandler("createdAt")}
+                  >
+                    New
+                  </Button>
+                  <Button
+                    variant={"contained"}
+                    color={
+                      productSearch.order === "productPrice"
+                        ? "primary"
+                        : "secondary"
+                    }
+                    className={"order"}
+                    onClick={() => serchOrderHandler("productPrice")}
+                  >
+                    Price
+                  </Button>
+                  <Button
+                    variant={"contained"}
+                    color={
+                      productSearch.order === "productViews"
+                        ? "primary"
+                        : "secondary"
+                    }
+                    className={"order"}
+                    onClick={() => serchOrderHandler("productViews")}
+                  >
+                    Views
+                  </Button>
+                </Stack>
+              </Stack>
             </Stack>
 
             {/* Qolgan kodlar O‘ZGARTIRILMAGAN */}
@@ -649,12 +656,10 @@ export default function Products(props: ProductsProps) {
                       className={"product-card"}
                       onClick={() => choseDishHandler(product._id)}
                     >
-                      <Stack
-                        className={"product-img"}
-                        sx={{
-                          backgroundImage: `url(${imagePath})`,
-                        }}
-                      >
+                      <Stack className={"product-img"}>
+                        <div className={"product-img-well"}>
+                          <img src={imagePath} alt="" />
+                        </div>
                         <div className={"product-sale"}>{sizeVolume}</div>
                         <Button
                           className={"shop-btn"}
@@ -674,21 +679,6 @@ export default function Products(props: ProductsProps) {
                             style={{ display: "flex" }}
                           />
                         </Button>
-                        <Button className={"view-btn"}>
-                          <Badge
-                            badgeContent={product.productViews}
-                            color="secondary"
-                          >
-                            <VisibilityOutlinedIcon
-                              sx={{
-                                color:
-                                  product.productViews === 0
-                                    ? "var(--line)"
-                                    : "var(--ink-muted)",
-                              }}
-                            />
-                          </Badge>
-                        </Button>
                       </Stack>
                       <Box className={"product-info"}>
                         <span className={"product-title"}>
@@ -697,9 +687,14 @@ export default function Products(props: ProductsProps) {
                         {product.productDesc ? (
                           <p className={"product-text"}>{product.productDesc}</p>
                         ) : null}
-                        <div className={"product-price"}>
-                          <span className={"price-mark"}>$</span>
-                          {product.productPrice}
+                        <div className={"product-meta"}>
+                          <span className={"product-views"}>
+                            <VisibilityOutlinedIcon sx={{ fontSize: 15 }} />
+                            {product.productViews}
+                          </span>
+                          <span className={"product-price"}>
+                            ${product.productPrice}
+                          </span>
                         </div>
                       </Box>
                     </Stack>

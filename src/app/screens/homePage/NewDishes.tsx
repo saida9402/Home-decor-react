@@ -5,7 +5,6 @@ import CardOverflow  from "@mui/joy/CardOverflow";
 import Typography from '@mui/joy/Typography';
 import { CssVarsProvider } from "@mui/joy/styles";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import Divider  from "../../components/divider";
 
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
@@ -82,27 +81,34 @@ export default function NewDishes(props: NewDishesProps) {
                                             style={{ display: "flex" }}
                                           />
                                         </button>
-                                        <AspectRatio ratio="1" className={"media-well"}>
+                                        <AspectRatio ratio="4/5" className={"media-well"}>
                                             <img src={imagePath} alt="" />
                                         </AspectRatio>
                                     </CardOverflow>
 
                                     <CardOverflow variant="soft" className="product-detail">
                                         <Stack className="info">
-                                            <Stack className="name-row" flexDirection={"row"} alignItems={"center"}>
-                                                <Typography className={"title"}>
-                                                    {product.productName}
+                                            <Typography className={"title"}>
+                                                {product.productName}
+                                            </Typography>
+                                            {product.productDesc ? (
+                                                <Typography className={"subtitle"}>
+                                                    {product.productDesc}
                                                 </Typography>
-                                                <Divider width="1" height="16" bg="var(--line)"  />
-                                                <Typography className={"price"}>${product.productPrice}</Typography>
-                                            </Stack>
-                                            <Stack>
+                                            ) : null}
+                                            <Stack
+                                              className="meta-row"
+                                              flexDirection={"row"}
+                                              alignItems={"center"}
+                                              justifyContent={"space-between"}
+                                            >
                                                 <Typography className={"views"}>
-                                                    {product.productViews}
                                                     <VisibilityOutlinedIcon
-                                                     sx={{ fontSize: 15, marginLeft: "5px"}}
+                                                     sx={{ fontSize: 15, marginRight: "5px"}}
                                                     />
+                                                    {product.productViews}
                                                 </Typography>
+                                                <Typography className={"price"}>${product.productPrice}</Typography>
                                             </Stack>
                                         </Stack>
                                     </CardOverflow>
