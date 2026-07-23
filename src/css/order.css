@@ -526,6 +526,14 @@
     filter: none;
 }
 
+/* empty well — illustrative empty state, sized to the well */
+.order-page .order-info-box .order-user-image .order-user-avatar.avatar-glyph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-muted);
+}
+
 .order-page .order-info-box .order-user-icon-box {
     position: absolute;
     padding: 0;
@@ -542,10 +550,9 @@
     border-radius: 2px;
 }
 
-.order-page .order-user-icon-box .order-user-prof-img {
-    width: 14px;
-    height: 14px;
-    filter: brightness(0) opacity(0.5);
+/* hand-drawn hairline badge; colour driven here, not baked into the file */
+.order-page .order-info-box .order-user-icon-box svg {
+    color: var(--ink-muted);
 }
 
 .order-page .order-info-box .order-user-name {

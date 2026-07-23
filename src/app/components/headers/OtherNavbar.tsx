@@ -18,6 +18,7 @@ import { serverApi } from "../../../lib/config";
 import { Logout } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import { MemberAvatar } from "../icons/UserIcons";
 
 interface OtherNavbarProps {
     cartItems: CartItem[];
@@ -135,13 +136,14 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                                 </Button>
                             </Box>
                         ) : (
-                            <img
+                            <MemberAvatar
                                 className="user-avatar"
                                 src={
                                     authMember?.memberImage
                                     ? `${serverApi}/${authMember?.memberImage}`
-                                    : "/icons/default-user.svg"}
-                                    aria-haspopup={"true"}
+                                    : null}
+                                    glyphSize={17}
+                                    ariaHasPopup={true}
                                     onClick={handleLogoutClick}
                             />
                         )}

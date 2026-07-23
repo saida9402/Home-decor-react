@@ -18,6 +18,11 @@ import "../../../css/order.css";
 import { useHistory } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
 import { MemberType } from "../../../lib/enums/member.enum";
+import {
+  MemberAvatar,
+  SellerGlyph,
+  UserBadgeGlyph,
+} from "../../components/icons/UserIcons";
 
 /** REDUX SLICE & SELECTOR **/
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -96,24 +101,21 @@ export default function OrdersPage() {
           <Box className={"order-info-box"}>
             <Box className={"member-box"}>
               <div className={"order-user-image"}>
-                <img
+                <MemberAvatar
                   src={
                     authMember?.memberImage
                        ? `${serverApi}/${authMember.memberImage}`
-                       : "/icons/default-user.svg"
+                       : null
                       }
                   className={"order-user-avatar"}
-                  alt=""
+                  glyphSize={34}
                 />
                 <div className={"order-user-icon-box"}>
-                  <img
-                     src={authMember?.memberType === MemberType.SELLER
-                            ? "/icons/restaurant.svg"
-                            : "/icons/user-badge.svg"
-                          }
-                     className={"order-user-prof-img"}
-                     alt=""
-                  />
+                  {authMember?.memberType === MemberType.SELLER ? (
+                    <SellerGlyph size={15} />
+                  ) : (
+                    <UserBadgeGlyph size={15} />
+                  )}
                 </div>
               </div>
               <span className={"order-user-name"}>

@@ -218,6 +218,20 @@
   border-color: var(--accent);
 }
 
+/* the no-image branch renders a hairline glyph in the same 34px frame */
+.site-header .links .user-avatar.avatar-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  color: var(--ink-muted);
+  transition: border-color var(--ease), color var(--ease);
+}
+
+.site-header .links .user-avatar.avatar-glyph:hover {
+  color: var(--accent);
+}
+
 /* --- mobile trigger ------------------------------------------- */
 
 .site-header .nav-toggle {
