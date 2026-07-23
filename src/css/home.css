@@ -29,6 +29,7 @@
 
 .homepage .static-frame .static-eyebrow {
     margin-bottom: 54px;
+    max-width: 520px;
     text-align: center;
     font-family: var(--font-sans);
     font-style: normal;
@@ -38,18 +39,6 @@
     letter-spacing: 1.6px;
     text-transform: uppercase;
     color: var(--ink-muted);
-}
-
-/* placeholder marker — --accent so it reads as a warning, not a label.
-   Remove this class together with the real copy. */
-.homepage .static-frame .static-eyebrow.is-placeholder {
-    color: var(--accent);
-}
-
-/* masked figures: an em-dash pair cannot be mistaken for a statistic */
-.homepage .static-frame .info .static-box .static-num[data-placeholder="true"] {
-    color: var(--ink-muted);
-    letter-spacing: 2px;
 }
 
 .homepage .static-frame .info {
