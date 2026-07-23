@@ -97,7 +97,7 @@ export default function ChosenProduct(props: ChoseProductProps) {
           <Box className={"info-box"}>
             <strong className={"product-name"}>{chosenProduct?.productName}</strong>
             <span className={"resto-name"}>{restaurant?.memberNick}</span>
-            <span className={"resto-name"}>{restaurant?.memberPhone}</span>
+            <span className={"resto-name product-id"}>{restaurant?.memberPhone}</span>
             <Box className={"rating-box"}>
               <Rating
                 name="half-rating"
@@ -118,7 +118,7 @@ export default function ChosenProduct(props: ChoseProductProps) {
                 ? chosenProduct?.productDesc
                 : "No Description"}
             </p>
-            <Divider height="1" width="100%" bg="#000000" />
+            <Divider height="1" width="100%" bg="var(--line)" />
             <div className={"product-price"}>
               <span>Price:</span>
               <span>{chosenProduct?.productPrice}</span>

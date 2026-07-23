@@ -673,7 +673,7 @@
   position: relative;
   width: 100%;
   height: auto;
-  background: #f8f8ff;
+  background: var(--surface);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -753,27 +753,47 @@
   flex-direction: column;
 }
 
+/* one typographic hierarchy for the whole panel, on the shared token set:
+   serif display title, letterspaced brand label, subtle id, quiet body,
+   serif price — with a consistent 8/16/24 vertical rhythm between blocks */
 .products-page .chosen-product .info-box .product-name {
-  font-family: "Poppins";
+  margin: 0;
+  font-family: var(--font-serif);
   font-style: normal;
-  font-weight: 600;
-  font-size: 30px;
-  line-height: 36px;
-  color: #000000;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1.15;
+  letter-spacing: 0.4px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
 }
 
+/* brand — same letterspaced uppercase label as the nav / meta text */
 .products-page .chosen-product .info-box .resto-name {
   margin-top: 16px;
-  font-family: "Poppins";
+  font-family: var(--font-sans);
   font-style: normal;
-  font-weight: 600;
-  font-size: 17px;
-  line-height: 15px;
-  color: #979797;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* product id — same muted family, but quieter secondary text: regular
+   case, natural tracking, so it reads as metadata rather than a label */
+.products-page .chosen-product .info-box .resto-name.product-id {
+  margin-top: 8px;
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  text-transform: none;
+  opacity: 0.85;
 }
 
 .products-page .chosen-product .info-box .rating-box {
-  margin-top: 20px;
+  margin-top: 24px;
   width: 100%;
   height: auto;
   display: flex;
@@ -803,39 +823,50 @@
   align-items: center;
 }
 
+/* body copy — regular weight, comfortable line-height, quiet ink.
+   The old fixed 112px height clipped longer descriptions; it now flows. */
 .products-page .chosen-product .info-box .product-desc {
-  height: 112px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  font-family: "Poppins";
+  margin-top: 24px;
+  margin-bottom: 0;
+  font-family: var(--font-sans);
   font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 22px;
-  color: #000000;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: 0.1px;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+
+/* the hairline divider (a bare <span>) carries the rhythm above it */
+.products-page .chosen-product .info-box .product-desc + span {
+  margin-top: 24px;
 }
 
 .products-page .chosen-product .info-box .product-price {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 24px;
+  margin-bottom: 0;
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
 }
 
+/* label and value share the serif title family at one consistent size */
 .products-page .chosen-product .product-price span {
-  font-family: "Poppins";
+  font-family: var(--font-serif);
   font-style: normal;
-  font-weight: 600;
-  font-size: 25px;
-  line-height: 22px;
-  color: #000000;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: 0.3px;
+  color: var(--ink);
 }
 
 .products-page .chosen-product .button-box {
+  margin-top: 24px;
   width: 100%;
   height: auto;
   display: flex;
@@ -843,23 +874,40 @@
   justify-content: center;
 }
 
-.products-page .chosen-product .button-box button {
-  width: 230px;
-  height: 44px;
-  font-family: "Poppins";
+/* the shared dark-charcoal action button — same skin as ADD TO BASKET
+   elsewhere: ink ground, letterspaced uppercase sans, terracotta hover */
+.products-page .chosen-product .button-box .MuiButton-root {
+  width: 100%;
+  height: 46px;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  box-shadow: none;
+  font-family: var(--font-sans);
   font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 22px;
-  color: #f8f8ff;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--surface);
+  transition: background-color var(--ease), border-color var(--ease);
+}
+
+.products-page .chosen-product .button-box .MuiButton-root:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: none;
 }
 
 .products-page .chosen-product .title {
-  font-family: "Dancing Script";
+  font-family: var(--font-serif);
   font-style: normal;
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 43px;
+  font-weight: 300;
+  font-size: 44px;
+  line-height: 1.15;
+  letter-spacing: 1px;
+  color: var(--ink);
   margin-top: 40px;
 }
 
