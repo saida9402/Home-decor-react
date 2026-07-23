@@ -18,10 +18,73 @@
 	flex-direction: row;
 	align-items: flex-start;
 	gap: 40px;
-	padding: 88px 0 104px;
+	/* (3) was 88px — the products page opens its content at 72px */
+	padding: 72px 0 104px;
 }
 
-.my-page-frame .my-page-left {
+/* left rail — a vertical tab list styled like the site nav. It holds the
+   view switch only; the content it drives lives in .my-page-content. */
+.my-page-frame .my-page-nav {
+	flex: 0 0 180px;
+	min-width: 0;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 6px;
+	position: sticky;
+	top: 96px;
+}
+
+/* nav item — letterspaced uppercase, hairline underline on the active
+   tab in --accent, exactly as the header's active link reads */
+.my-page-frame .my-page-nav .my-page-tab {
+	position: relative;
+	width: auto;
+	padding: 6px 0;
+	background: transparent;
+	border: none;
+	border-radius: 0;
+	cursor: pointer;
+	font-family: var(--font-sans);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1.4;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	color: var(--ink);
+	transition: color var(--ease);
+}
+
+.my-page-frame .my-page-nav .my-page-tab::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 1px;
+	background: var(--accent);
+	transform: scaleX(0);
+	transform-origin: 0% 50%;
+	transition: transform var(--ease);
+}
+
+.my-page-frame .my-page-nav .my-page-tab:hover {
+	color: var(--accent);
+}
+
+.my-page-frame .my-page-nav .my-page-tab.is-active {
+	color: var(--accent);
+}
+
+.my-page-frame .my-page-nav .my-page-tab:hover::after,
+.my-page-frame .my-page-nav .my-page-tab.is-active::after {
+	transform: scaleX(1);
+}
+
+/* content column — fills the row, holds whichever tab is active */
+.my-page-frame .my-page-content {
 	flex: 1 1 0;
 	min-width: 0;
 	height: auto;
@@ -29,21 +92,33 @@
 	flex-direction: column;
 }
 
-.my-page-frame .my-page-right {
-	flex: 0 0 360px;
+/* MY INFO — the settings form leads, the identity card sits to its right,
+   the same relationship the page had before, now scoped to this tab */
+.my-page-content .my-info-grid {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 40px;
+}
+
+.my-page-content .my-info-grid .my-info-details {
+	flex: 1 1 0;
 	min-width: 0;
-	height: auto;
 	display: flex;
 	flex-direction: column;
-	gap: 26px;
-	margin-left: 0;
+}
+
+.my-page-content .my-info-grid .order-info-box {
+	flex: 0 0 360px;
 }
 
 /* --- section heading -------------------------------------------
-   was Poppins 45px in #f8f8ff — white on a near-white ground, so
-   it was invisible rather than merely off-system */
+   (1)(2) matched to the products page title exactly: same family,
+   weight, size, line-height and tracking, and without the --accent
+   rule, which is a treatment that exists nowhere on the reference. */
 
-.my-page-left .menu-name {
+.my-page-content .menu-name {
 	width: 100%;
 	height: auto;
 	display: block;
@@ -53,21 +128,13 @@
 	font-family: var(--font-serif);
 	font-style: normal;
 	font-weight: 300;
-	font-size: 32px;
+	font-size: 44px;
 	line-height: 1.15;
-	letter-spacing: 1.2px;
+	letter-spacing: 1px;
 	color: var(--ink);
 }
 
-.my-page-left .menu-name::after {
-	display: block;
-	content: "";
-	margin: 16px 0 0;
-	width: 26px;
-	border-bottom: 1px solid var(--accent);
-}
-
-.my-page-left .menu-content {
+.my-page-content .menu-content {
 	margin-top: 0;
 	width: 100%;
 	height: auto;
@@ -120,6 +187,15 @@
 	filter: none;
 }
 
+/* empty well — the glyph is an illustrative empty state, so it is sized to
+   the well rather than to the 15/17/19 icon scale */
+.user-page .order-info-box .order-user-img .order-user-avatar.avatar-glyph {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--ink-muted);
+}
+
 /* the seller badge — now reachable, see MemberType.SELLER */
 .user-page .order-info-box .order-user-icon-box {
 	position: absolute;
@@ -137,20 +213,21 @@
 	border-radius: 2px;
 }
 
-.user-page .order-info-box .order-user-icon-box img {
-	width: 15px;
-	height: 15px;
-	filter: brightness(0) opacity(0.5);
+/* hand-drawn hairline badge; colour driven here, not baked into the file */
+.user-page .order-info-box .order-user-icon-box svg {
+	color: var(--ink-muted);
 }
 
+/* (8) was a fourth serif size (32/28/19); the reference ladder is
+   page-title 44 and card-title 19, and this is a card title */
 .user-page .order-info-box .order-user-name {
 	margin-top: 20px;
 	font-family: var(--font-serif);
 	font-style: normal;
-	font-weight: 300;
-	font-size: 28px;
-	line-height: 1.2;
-	letter-spacing: 0.4px;
+	font-weight: 400;
+	font-size: 19px;
+	line-height: 1.3;
+	letter-spacing: 0.15px;
 	color: var(--ink);
 	text-align: center;
 	overflow-wrap: anywhere;
@@ -237,12 +314,20 @@
    on focus
    ============================================================ */
 
+/* (4) the form used to sit directly on the page ground while every other
+   content block in the document is a bordered --surface card. Same padding
+   as .order-info-box, and its sections are divided by hairlines the same way. */
 .user-page .settings {
 	width: 100%;
+	box-sizing: border-box;
 	height: auto;
+	padding: 30px 28px;
 	display: flex;
 	flex-direction: column;
 	gap: 22px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 2px;
 }
 
 .user-page .settings .input-frame {
@@ -299,10 +384,14 @@
 	font-weight: 400;
 	font-size: 13px;
 	line-height: 1.6;
+	/* (6) the reference search input carries 0.4px; these carried none */
+	letter-spacing: 0.4px;
 	color: var(--ink);
 	transition: border-color var(--ease);
 }
 
+/* (5) one field height across the document — was 46 here and 40 on the
+   history search, against 47 on the reference */
 .user-page .settings .spec-input {
 	padding: 0 14px;
 	height: 46px;
@@ -327,19 +416,22 @@
 
 /* --- image upload ---------------------------------------------- */
 
+/* now a section inside the form card, divided by a hairline rather than
+   being a second bordered box nested inside the first */
 .user-page .settings .member-media-frame {
-	margin-top: 0;
+	margin: 0;
 	position: relative;
-	padding: 20px;
+	padding: 0 0 22px;
 	width: 100%;
 	box-sizing: border-box;
 	height: auto;
 	display: flex;
 	align-items: center;
 	gap: 20px;
-	background: var(--surface);
-	border: 1px solid var(--line);
-	border-radius: 2px;
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid var(--line);
+	border-radius: 0;
 }
 
 .user-page .settings .member-media-frame .mb-image {
@@ -351,6 +443,13 @@
 	background: var(--surface-alt);
 	border: 1px solid var(--line);
 	border-radius: 2px;
+}
+
+.user-page .settings .member-media-frame .mb-image.avatar-glyph {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--ink-muted);
 }
 
 .user-page .settings .media-change-box {
@@ -765,9 +864,40 @@
 		padding: 64px 0 80px;
 	}
 
-	.my-page-frame .my-page-right {
+	/* the rail becomes a horizontal tab bar sitting above the content,
+	   on a hairline baseline like a real tab strip */
+	.my-page-frame .my-page-nav {
+		flex: 0 0 auto;
+		width: 100%;
+		flex-direction: row;
+		align-items: center;
+		gap: 28px;
+		position: static;
+		top: auto;
+		padding-bottom: 14px;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.my-page-frame .my-page-content {
+		width: 100%;
+	}
+
+	/* the identity card drops below the form once the row wraps */
+	.my-page-content .my-info-grid {
+		flex-direction: column;
+		gap: 44px;
+	}
+
+	.my-page-content .my-info-grid .my-info-details,
+	.my-page-content .my-info-grid .order-info-box {
 		flex: 1 1 auto;
 		width: 100%;
+	}
+
+	/* same step the products page takes at this breakpoint */
+	.my-page-content .menu-name,
+	.user-page .order-history-section .history-title {
+		font-size: 34px;
 	}
 }
 
@@ -783,6 +913,12 @@
 	.user-page .settings .input-frame {
 		flex-direction: column;
 		gap: 22px;
+	}
+
+	/* the 220px basis is a width in a row, but becomes a HEIGHT once the
+	   frame flips to a column — which is what left a dead gap under Phone */
+	.user-page .settings .short-input {
+		flex: 0 0 auto;
 	}
 
 	.user-page .settings .member-media-frame {

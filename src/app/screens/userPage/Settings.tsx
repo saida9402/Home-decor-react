@@ -8,14 +8,17 @@ import { T } from "../../../lib/types/common";
 import { Messages, serverApi } from "../../../lib/config";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 import MemberService from "../../services/MemberService";
+import { MemberAvatar } from "../../components/icons/UserIcons";
 
 /** done */
 export function Settings() {
   const { authMember, setAuthMember } = useGlobals();
-  const [memberImage, setMemberImage] = useState<string>(
+  // null, not the icon path: the empty state is now a glyph the CSS can
+  // colour, and MemberAvatar also catches an image URL that fails to load
+  const [memberImage, setMemberImage] = useState<string | null>(
     authMember?.memberImage
-     ? `${serverApi}/${authMember.memberImage}` 
-     : "/icons/default-user.svg"
+     ? `${serverApi}/${authMember.memberImage}`
+     : null
   );
 
   const [memberUpdateInput, setMemberUpdateInput] = useState<MemberUpdateInput>(
@@ -93,7 +96,7 @@ export function Settings() {
   return (
     <Box className={"settings"}>
       <Box className={"member-media-frame"}>
-        <img src={memberImage} className={"mb-image"} />
+        <MemberAvatar src={memberImage} className={"mb-image"} glyphSize={30} />
         <div className={"media-change-box"}>
           <span>Upload image</span>
           <p>JPG, JPEG, PNG formats only!</p>
