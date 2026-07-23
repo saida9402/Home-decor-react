@@ -3,25 +3,23 @@ import Statistics from "./Statistics";
 import PopularDishes from "./PopularDishes";
 import NewDishes from "./NewDishes";
 import Advertisement from "./Advertisement";
-import ActiveUsers from "./ActiveUsers";
+import TheEdit from "./TheEdit";
 import Events from "./Events";
 import "../../../css/home.css";
 
 import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
-import { setNewDishes, setPopularDishes, setTopUsers } from "./slice";
+import { setNewDishes, setPopularDishes, setMostLoved } from "./slice";
 import { Product } from "../../../lib/types/product";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
-import { Member } from "../../../lib/types/member";
-import MemberService from "../../services/MemberService";
 import { CartItem } from "../../../lib/types/search";
 
 /** REDUX SLICE & SELECTOR **/
 const actionDispatch = (dispatch: Dispatch) => ({
   setPopularDishes: (data: Product[]) => dispatch(setPopularDishes(data)),
   setNewDishes: (data: Product[]) => dispatch(setNewDishes(data)),
-  setTopUsers: (data: Member[]) => dispatch(setTopUsers(data)),
+  setMostLoved: (data: Product[]) => dispatch(setMostLoved(data)),
 });
 
 interface HomePageProps {
@@ -30,7 +28,7 @@ interface HomePageProps {
 
 export default function HomePage(props: HomePageProps) {
   const { onAdd } = props;
-  const { setPopularDishes, setNewDishes, setTopUsers } = actionDispatch(
+  const { setPopularDishes, setNewDishes, setMostLoved } = actionDispatch(
     useDispatch()
   );
 
@@ -60,10 +58,15 @@ export default function HomePage(props: HomePageProps) {
       })
       .catch((err) => console.log(err));
 
-    const member = new MemberService();
-    member
-      .getTopUsers()
-      .then((data) => setTopUsers(data))
+    product
+      .getProducts({
+        page: 1,
+        limit: 5,
+        order: "productViews",
+      })
+      .then((data) => {
+        setMostLoved(data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -73,7 +76,7 @@ export default function HomePage(props: HomePageProps) {
       <PopularDishes onAdd={onAdd} />
       <NewDishes onAdd={onAdd} />
       <Advertisement />
-      <ActiveUsers />
+      <TheEdit />
       <Events />
     </div>
   );
