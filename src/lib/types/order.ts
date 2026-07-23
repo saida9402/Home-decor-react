@@ -13,8 +13,8 @@ export interface OrderItem {
   itemPrice: number;
   orderId: string;
   productId: string;
-  createAt: Date;
-  updateAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Order {
@@ -24,7 +24,7 @@ export interface Order {
   orderStatus: OrderStatus;
   memberId: string;
   createdAt: Date;
-  updateAt: Date;
+  updatedAt: Date;
   /** from aggregation **/
   orderItems: OrderItem[];
   productData: Product[];
@@ -38,7 +38,7 @@ export interface OrderItemInput {
 }
 
 export interface OrderUpdateInput {
-  orderId: String;
+  orderId: string;
   orderStatus: OrderStatus;
 }
 export { OrderStatus };
