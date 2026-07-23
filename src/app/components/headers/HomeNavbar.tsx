@@ -61,6 +61,58 @@ const Wordmark = () => (
     </svg>
 );
 
+/** Hero image well — cross-fades through the four category images. */
+const HERO_IMAGES = [
+    { src: "/img/hero/hero-furniture.jpg", alt: "Furniture" },
+    { src: "/img/hero/hero-lighting.jpg", alt: "Lighting" },
+    { src: "/img/hero/hero-storage.jpg", alt: "Storage" },
+    { src: "/img/hero/hero-textiles.jpg", alt: "Textiles" },
+];
+
+const HeroPanel = () => {
+    const [{ active, prev }, setSlides] = useState({ active: 0, prev: -1 });
+
+    useEffect(() => {
+        const reduced = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+        if (reduced) return;
+
+        const id = window.setInterval(() => {
+            setSlides((s) => ({
+                active: (s.active + 1) % HERO_IMAGES.length,
+                prev: s.active,
+            }));
+        }, 5000);
+        return () => window.clearInterval(id);
+    }, []);
+
+    return (
+        <Box className={"hero-panel"}>
+            {HERO_IMAGES.map((image, index) => (
+                <div
+                    key={image.src}
+                    className={
+                        index === active
+                            ? "hero-slide is-active"
+                            : index === prev
+                            ? "hero-slide is-leaving"
+                            : "hero-slide"
+                    }
+                >
+                    <img
+                        className={"hero-img"}
+                        src={image.src}
+                        alt={image.alt}
+                        loading={index === 0 ? "eager" : "lazy"}
+                        decoding="async"
+                    />
+                </div>
+            ))}
+        </Box>
+    );
+};
+
 export default function HomeNavbar(props: HomeNavbarProps) {
     const {
          cartItems,
@@ -224,6 +276,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                         ) : null}
                     </Box>
                 </Stack>
+                <HeroPanel />
             </Stack>
         </Container>
 

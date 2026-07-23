@@ -278,14 +278,97 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 72px;
   padding: 92px 0 128px;
+  /* clip the travelling slides at the section, not the panel, so images
+     enter/leave across open space without ever adding a page scrollbar */
+  overflow-x: hidden;
 }
 
 .home-navbar .header-frame .detail {
-  width: 100%;
+  flex: 1 1 50%;
+  min-width: 0;
   max-width: 620px;
   display: flex;
   flex-direction: column;
+}
+
+/* hero image well — square footprint only; no frame, no clip. the images
+   themselves carry the edge and travel in/out of this position. */
+.home-navbar .header-frame .hero-panel {
+  position: relative;
+  flex: 1 1 50%;
+  width: 100%;
+  max-width: 480px;
+  margin-left: auto;
+  aspect-ratio: 1 / 1;
+}
+
+/* each slide is a layer that travels; its inner image parallaxes the
+   opposite way at a smaller amplitude. nothing clips here — the images move
+   through open space and are clipped only at the section edge. non-active
+   slides park fully off to the right (120%) with no transition, so a leaving
+   slide's reset from -120% back to the park snaps invisibly (opacity is 0). */
+.home-navbar .header-frame .hero-panel .hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateX(120%);
+  z-index: 0;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transition: none;
+}
+
+.home-navbar .header-frame .hero-panel .hero-slide .hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* scaled so the parallax drift never bares an edge of the image */
+  transform: translateX(-10%) scale(1.12);
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: none;
+}
+
+/* incoming: travels in from fully off the right edge; image drifts opposite
+   (leftward → centre). opacity resolves over the first ~30% (300ms). */
+.home-navbar .header-frame .hero-panel .hero-slide.is-active {
+  opacity: 1;
+  transform: translateX(0);
+  z-index: 2;
+  transition: transform 1000ms cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 300ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.home-navbar .header-frame .hero-panel .hero-slide.is-active .hero-img {
+  transform: translateX(0) scale(1.12);
+  transition: transform 1000ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* outgoing: continues left and exits fully past the left edge; image drifts
+   opposite (rightward). stays fully opaque while moving, then fades only in
+   the last ~30% (700ms delay + 300ms). */
+.home-navbar .header-frame .hero-panel .hero-slide.is-leaving {
+  opacity: 0;
+  transform: translateX(-120%);
+  z-index: 1;
+  transition: transform 1000ms cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 300ms cubic-bezier(0.65, 0, 0.35, 1) 700ms;
+}
+
+.home-navbar .header-frame .hero-panel .hero-slide.is-leaving .hero-img {
+  transform: translateX(10%) scale(1.12);
+  transition: transform 1000ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-navbar .header-frame .hero-panel .hero-slide,
+  .home-navbar .header-frame .hero-panel .hero-slide .hero-img {
+    transition: none;
+  }
 }
 
 .home-navbar .header-frame .detail .head-main-txt {
@@ -429,6 +512,26 @@
 /* ============================================================
    RESPONSIVE
    ============================================================ */
+
+@media (max-width: 1023px) {
+  /* stack: text first, image panel full-width below */
+  .home-navbar .header-frame {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 52px;
+  }
+
+  .home-navbar .header-frame .detail {
+    flex: initial;
+    max-width: 620px;
+  }
+
+  .home-navbar .header-frame .hero-panel {
+    flex: initial;
+    max-width: 100%;
+    margin-left: 0;
+  }
+}
 
 @media (max-width: 1100px) {
   .site-header .nav-links {
