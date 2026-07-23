@@ -570,13 +570,15 @@
    ORDER HISTORY — scrollable, searchable
    ============================================================ */
 
-.user-page .order-history-box {
+.user-page .order-history-box,
+.user-page .order-history-section {
 	width: 100%;
 }
 
 .user-page .order-history {
 	width: 100%;
-	padding: 24px 22px;
+	/* same card padding as the settings form and the profile card */
+	padding: 30px 28px;
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
@@ -585,45 +587,99 @@
 	border-radius: 2px;
 }
 
-.user-page .order-history .history-head {
+/* the section heading row, now outside the card and on the page rung */
+.user-page .order-history-section .history-head {
 	display: flex;
 	flex-direction: row;
 	align-items: baseline;
 	justify-content: space-between;
-	gap: 12px;
-	padding-bottom: 16px;
-	border-bottom: 1px solid var(--line);
+	gap: 16px;
+	margin: 0 0 34px;
+	padding-bottom: 0;
+	border-bottom: none;
 }
 
-.user-page .order-history .history-title,
-.user-page .order-history .history-count {
+/* (7) was Inter 11px uppercase — a label scale doing a heading's job.
+   Now identical to .menu-name, the reference page-title treatment. */
+.user-page .order-history-section .history-title {
+	font-family: var(--font-serif);
+	font-style: normal;
+	font-weight: 300;
+	font-size: 44px;
+	line-height: 1.15;
+	letter-spacing: 1px;
+	color: var(--ink);
+}
+
+/* the count stays a label — it is metadata, not a heading */
+.user-page .order-history-section .history-count {
+	flex: 0 0 auto;
 	font-family: var(--font-sans);
 	font-weight: 500;
 	font-size: 11px;
 	line-height: 1.4;
 	letter-spacing: 1.6px;
 	text-transform: uppercase;
-}
-
-.user-page .order-history .history-title {
-	color: var(--ink);
-}
-
-.user-page .order-history .history-count {
-	flex: 0 0 auto;
 	color: var(--ink-muted);
 }
 
 /* --- search ------------------------------------------------------ */
 
+/* search + year sit on one row; the search flexes, the year holds its
+   width to the right. They stack on small screens. */
+.user-page .order-history .history-filters {
+	margin-top: 0;
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	gap: 12px;
+}
+
+.user-page .order-history .history-filters .history-search {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+/* same field skin as the search box: 46px tall, hairline border that
+   warms to --accent on focus, cream ground, 2px corners */
+.user-page .order-history .history-year {
+	flex: 0 0 auto;
+	min-width: 140px;
+	height: 46px;
+	box-sizing: border-box;
+	padding: 0 40px 0 14px;
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: transparent;
+	/* hairline chevron in --ink-muted */
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%236b635a' stroke-width='1.4'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 14px center;
+	border: 1px solid var(--line);
+	border-radius: 2px;
+	cursor: pointer;
+	font-family: var(--font-sans);
+	font-size: 13px;
+	letter-spacing: 0.4px;
+	color: var(--ink);
+	transition: border-color var(--ease);
+}
+
+.user-page .order-history .history-year:focus {
+	outline: none;
+	border-color: var(--accent);
+}
+
 .user-page .order-history .history-search {
-	margin-top: 16px;
+	/* first element in the card now that the head has moved out */
+	margin-top: 0;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	gap: 9px;
-	padding: 0 12px;
-	height: 40px;
+	padding: 0 14px;
+	/* (5) same field height as the settings inputs */
+	height: 46px;
 	box-sizing: border-box;
 	background: transparent;
 	border: 1px solid var(--line);
@@ -650,7 +706,7 @@
 	outline: none;
 	font-family: var(--font-sans);
 	font-size: 13px;
-	letter-spacing: 0.2px;
+	letter-spacing: 0.4px;
 	color: var(--ink);
 }
 
@@ -795,17 +851,19 @@
 
 /* --- explicit states ---------------------------------------------- */
 
+/* (9) the reference prints its empty state directly on the card ground —
+   no second box, no --surface-alt fill */
 .user-page .order-history .history-state {
 	margin-top: 16px;
-	padding: 44px 16px;
+	padding: 56px 16px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 9px;
 	text-align: center;
-	background: var(--surface-alt);
-	border: 1px solid var(--line);
-	border-radius: 2px;
+	background: transparent;
+	border: none;
+	border-radius: 0;
 }
 
 .user-page .order-history .history-state-title {
@@ -906,8 +964,23 @@
 		padding: 48px 0 64px;
 	}
 
-	.my-page-left .menu-name {
-		font-size: 26px;
+	.user-page .settings,
+	.user-page .order-history {
+		padding: 24px 20px;
+	}
+
+	.user-page .order-history-section .history-head {
+		margin-bottom: 24px;
+	}
+
+	/* search and year stack, each full width */
+	.user-page .order-history .history-filters {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.user-page .order-history .history-year {
+		width: 100%;
 	}
 
 	.user-page .settings .input-frame {
