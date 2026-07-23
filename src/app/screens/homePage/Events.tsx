@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper";
-import { plans } from "../../../lib/data/plans";
+import { events } from "../../../lib/data/events";
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -10,7 +10,7 @@ export default function Events() {
     <div className={"events-frame"}>
       <Stack className={"events-main"}>
         <Box className={"events-text"}>
-          <span className={"category-title"}>The Journal</span>
+          <span className={"category-title"}>Events</span>
         </Box>
 
         <Swiper
@@ -31,53 +31,47 @@ export default function Events() {
             disableOnInteraction: true,
           }}
         >
-          {plans.map((value, number) => {
+          {events.map((value) => {
             return (
-              <SwiperSlide key={number} className={"events-info-frame"}>
-                <div className={"events-img"}>
-                  <img src={value.img} className={"events-img"} />
+              <SwiperSlide key={value.id} className={"events-info-frame"}>
+                <div className={"events-img-well"}>
+                  <img
+                    src={value.image}
+                    alt={value.title}
+                    onError={(e) => {
+                      e.currentTarget.style.visibility = "hidden";
+                    }}
+                  />
                 </div>
                 <Box className={"events-desc"}>
-                  <Box className={"events-bott"}>
-                    <Box className={"bott-left"}>
-                      <div className={"event-title-speaker"}>
-                        <strong>{value.title}</strong>
-                        <div className={"event-organizator"}>
-                          <img src={"/icons/speaker.svg"} />
-                          <p className={"spec-text-author"}>{value.author}</p>
-                        </div>
-                      </div>
+                  <strong className={"event-title"}>{value.title}</strong>
 
-                      <p className={"text-desc"}> {value.desc} </p>
+                  <div className={"event-organizator"}>
+                    <img src={"/icons/speaker.svg"} alt={""} />
+                    <p className={"spec-text-author"}>{value.host}</p>
+                  </div>
 
-                      <div className={"bott-info"}>
-                        <div className={"bott-info-main"}>
-                          <img src={"/icons/calendar.svg"} />
-                          {value.date}
-                        </div>
-                        <div className={"bott-info-main"}>
-                          <img src={"/icons/location.svg"} />
-                          {value.location}
-                        </div>
-                      </div>
-                    </Box>
-                  </Box>
+                  <p className={"text-desc"}>{value.description}</p>
+
+                  <div className={"bott-info"}>
+                    <div className={"bott-info-main"}>
+                      <img src={"/icons/calendar.svg"} alt={""} />
+                      {value.date}
+                    </div>
+                    <div className={"bott-info-main"}>
+                      <img src={"/icons/location.svg"} alt={""} />
+                      {value.location}
+                    </div>
+                  </div>
                 </Box>
               </SwiperSlide>
             );
           })}
         </Swiper>
         <Box className={"prev-next-frame"}>
-          <img
-            src={"/icons/arrow-right.svg"}
-            className={"swiper-button-prev"}
-          />
+          <span className={"swiper-button-prev"} aria-label={"Previous"} />
           <div className={"dot-frame-pagination swiper-pagination"}></div>
-          <img
-            src={"/icons/arrow-right.svg"}
-            className={"swiper-button-next"}
-            style={{ transform: "rotate(-180deg)" }}
-          />
+          <span className={"swiper-button-next"} aria-label={"Next"} />
         </Box>
       </Stack>
     </div>

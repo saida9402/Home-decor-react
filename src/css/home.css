@@ -1023,7 +1023,8 @@
   height: auto;
 }
 
-/* prev / next take the same bordered-square skin as the card actions */
+/* prev / next take the same bordered-square skin as the card actions:
+   cream ground, hairline border, thin chevron — accent on hover */
 .homepage .events-frame .prev-next-frame .swiper-button-prev,
 .homepage .events-frame .prev-next-frame .swiper-button-next {
   position: relative;
@@ -1032,7 +1033,7 @@
   right: auto;
   bottom: auto;
   margin: 0;
-  padding: 9px;
+  padding: 0;
   width: 38px;
   height: 38px;
   box-sizing: border-box;
@@ -1043,20 +1044,44 @@
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 2px;
-  filter: brightness(0) opacity(0.5);
-  transition: opacity var(--ease), border-color var(--ease);
+  transition: border-color var(--ease);
 }
 
 .homepage .events-frame .prev-next-frame .swiper-button-prev:hover,
 .homepage .events-frame .prev-next-frame .swiper-button-next:hover {
-  border-color: var(--ink-muted);
-  filter: brightness(0) opacity(0.82);
+  border-color: var(--accent);
 }
 
-/* swiper@8 injects its own ::after glyph on these class names */
+/* thin chevron drawn from the arrow glyph as a mask, so it takes exact
+   design tokens (swiper@8's own ::after glyph is overridden here) */
 .homepage .events-frame .prev-next-frame .swiper-button-prev::after,
 .homepage .events-frame .prev-next-frame .swiper-button-next::after {
-  content: none;
+  content: "";
+  width: 16px;
+  height: 16px;
+  background-color: var(--ink-muted);
+  /* inline data-URI so webpack doesn't try to resolve a public path as a
+     module; alpha of the stroked glyph is the mask, so colour comes from
+     background-color above (rest --ink-muted / hover --accent) */
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%3E%3Cpath%20d='M9.57%2018.0697L3.5%2011.9997L9.57%205.92969'%20stroke='%23000'%20stroke-width='1.5'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cpath%20d='M20.5019%2012H3.67188'%20stroke='%23000'%20stroke-width='1.5'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 16px;
+  mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%3E%3Cpath%20d='M9.57%2018.0697L3.5%2011.9997L9.57%205.92969'%20stroke='%23000'%20stroke-width='1.5'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cpath%20d='M20.5019%2012H3.67188'%20stroke='%23000'%20stroke-width='1.5'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 16px;
+  transition: background-color var(--ease);
+}
+
+/* the arrow glyph points left; rotate it for the next control */
+.homepage .events-frame .prev-next-frame .swiper-button-next::after {
+  transform: rotate(180deg);
+}
+
+.homepage .events-frame .prev-next-frame .swiper-button-prev:hover::after,
+.homepage .events-frame .prev-next-frame .swiper-button-next:hover::after {
+  background-color: var(--accent);
 }
 
 .homepage .events-frame .dot-frame-pagination {
@@ -1073,95 +1098,91 @@
   justify-content: space-between;
 }
 
-/* slidesPerView="auto" derives slide width from CSS, so this is the
-   correct lever for narrow viewports — no Swiper prop is involved */
+/* CARD SHELL — vertical stack (image on top, content below), never
+   overlapping. slidesPerView="auto" derives slide width from CSS, so the
+   width here is the responsive lever — no Swiper prop is involved. */
 .homepage .events-frame .events-info .events-info-frame {
   position: relative;
-  width: min(500px, 86vw);
+  width: min(380px, 31%);
   height: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.homepage .events-frame .events-img {
-  width: 100%;
-  height: auto;
-  display: flex;
-  border-radius: 2px;
-  background-size: cover;
-}
-
-.homepage .events-frame .events-info-frame > .events-img {
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  border: 1px solid var(--line);
-}
-
-.homepage .events-frame .events-info-frame > .events-img img.events-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
-  object-fit: cover;
-}
-
-.homepage .events-frame .events-desc {
-  position: absolute;
-  margin-bottom: 0;
-  padding: 18px 20px;
-  display: flex;
-  width: 88%;
-  height: auto;
-  bottom: 16px;
   background: var(--surface);
   border: 1px solid var(--line);
-  box-shadow: none;
   border-radius: 2px;
+  overflow: hidden;
+  box-shadow: none;
+  transition: box-shadow var(--ease);
 }
 
-.homepage .events-frame .events-desc .events-bott {
-  width: 97%;
-  height: auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+/* equal-height cards: swiper-wrapper stretches slides to the tallest, so
+   there is no absolute positioning or z-index stacking to rely on */
+.homepage .events-frame .events-info .events-info-frame:hover {
+  box-shadow: 0 16px 34px -22px rgba(42, 38, 34, 0.45);
 }
 
-.homepage .events-frame .events-desc .events-bott .bott-left {
+/* IMAGE WELL — full width, fixed ratio, photo fully visible, no overlay */
+.homepage .events-frame .events-img-well {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  flex: 0 0 auto;
+  /* neutral ground shown when an event image is missing (img is hidden
+     on error, see Events.tsx) — no broken-image icon */
+  background: var(--surface);
+}
+
+.homepage .events-frame .events-img-well img {
   width: 100%;
   height: 100%;
+  display: block;
+  object-fit: cover;
+  /* gentle zoom, slower than the global --ease, clipped by the well */
+  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.homepage .events-frame .events-info-frame:hover .events-img-well img {
+  transform: scale(1.03);
+}
+
+/* CONTENT BLOCK — below the image, grows so the meta row sits flush
+   at the bottom of every card */
+.homepage .events-frame .events-desc {
+  position: static;
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 24px;
+  background: var(--surface);
 }
 
-.homepage .events-frame .bott-left .event-title-speaker {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.homepage .events-frame .bott-left .event-title-speaker strong {
-  min-width: 0;
+.homepage .events-frame .events-desc .event-title {
+  margin: 0;
   font-family: var(--font-serif);
   font-style: normal;
   font-weight: 400;
-  font-size: 21px;
+  font-size: 20px;
   line-height: 1.25;
   color: var(--ink);
+  /* 2-line clamp with ellipsis — keeps card height stable */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   overflow-wrap: anywhere;
 }
 
-.homepage .events-frame .event-title-speaker .event-organizator {
+/* host on its own line below the title, never inline beside it */
+.homepage .events-frame .events-desc .event-organizator {
   display: flex;
   align-items: center;
   min-width: 0;
+  margin-top: 10px;
 }
 
-.homepage .events-frame .event-title-speaker .event-organizator img {
+.homepage .events-frame .events-desc .event-organizator img {
   width: 14px;
   height: 14px;
   margin-right: 8px;
@@ -1182,8 +1203,8 @@
   overflow-wrap: anywhere;
 }
 
-.homepage .events-frame .bott-left .text-desc {
-  margin-top: 12px;
+.homepage .events-frame .events-desc .text-desc {
+  margin: 12px 0 0 0;
   font-family: var(--font-sans);
   font-style: normal;
   font-weight: 400;
@@ -1199,11 +1220,13 @@
   overflow-wrap: anywhere;
 }
 
-.homepage .events-frame .bott-left .bott-info {
-  margin-top: 14px;
-  padding-top: 12px;
+/* meta row pinned to the bottom (margin-top:auto) with a hairline divider */
+.homepage .events-frame .events-desc .bott-info {
+  margin-top: auto;
+  padding-top: 14px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 6px 18px;
@@ -1261,8 +1284,9 @@
   border-radius: 50%;
 }
 
-/** THE JOURNAL — RESPONSIVE **/
+/** EVENTS — RESPONSIVE **/
 
+/* tablet: 2 cards visible */
 @media (max-width: 900px) {
   .homepage .events-frame {
     padding: 76px 0 84px;
@@ -1275,21 +1299,28 @@
   .homepage .events-frame .events-main .events-text {
     margin-bottom: 42px;
   }
+
+  .homepage .events-frame .events-info .events-info-frame {
+    width: min(340px, 46%);
+  }
 }
 
-@media (max-width: 560px) {
+/* mobile: 1 card, taller image ratio, reduced padding */
+@media (max-width: 600px) {
+  .homepage .events-frame .events-info .events-info-frame {
+    width: 84vw;
+  }
+
+  .homepage .events-frame .events-img-well {
+    aspect-ratio: 3 / 2;
+  }
+
   .homepage .events-frame .events-desc {
-    width: 92%;
-    padding: 14px 16px;
-    bottom: 12px;
+    padding: 16px 18px;
   }
 
-  .homepage .events-frame .bott-left .event-title-speaker strong {
+  .homepage .events-frame .events-desc .event-title {
     font-size: 18px;
-  }
-
-  .homepage .events-frame .bott-left .bott-info {
-    justify-content: flex-start;
   }
 }
 
