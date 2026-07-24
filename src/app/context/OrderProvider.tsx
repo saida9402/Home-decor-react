@@ -8,6 +8,7 @@ import {
 
 import OrderService from "../services/OrderService";
 import { Order, OrderInquiry, OrderStatus } from "../../lib/types/order";
+import { useGlobals } from "../hooks/useGlobals";
 
 interface OrderContextType {
   orders: Order[];
@@ -37,6 +38,7 @@ const HISTORY_STATUSES: OrderStatus[] = [
 ];
 
 export const OrderProvider = ({ children }: { children: ReactNode }) => {
+  const { orderBuilder } = useGlobals();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -73,9 +75,11 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // Re-fetch whenever an order is created: checkout bumps orderBuilder
+  // (see Basket proceedOrderHandler), the same signal /orders already uses.
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [orderBuilder]);
 
   return (
     <OrderContext.Provider value={{ orders, loading, fetchOrders }}>
