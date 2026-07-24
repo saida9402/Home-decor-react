@@ -74,7 +74,6 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
   };
 
   const handlerUsername = (e: T) => {
-    console.log(e.target.value);
     setMemberNick(e.target.value);
   };
    const handlerPhone = (e: T) => {

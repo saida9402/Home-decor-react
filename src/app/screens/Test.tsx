@@ -22,11 +22,9 @@ class Test extends React.Component {
   };
 
   componentDidMount() {
-      console.log("componentDidMount");
   }
 
   componentWillUnmount() {
-      console.log("componentWillUnmount");
   }
 
   componentDidUpdate()  {}

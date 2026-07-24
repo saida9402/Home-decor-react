@@ -34,7 +34,6 @@ export default function NewDishes(props: NewDishesProps) {
         history.push(`/products/${id}`);
     };
 
-    console.log("newDishes:", newDishes);
     return (
         <div className="new-products-frame">
             <Container>

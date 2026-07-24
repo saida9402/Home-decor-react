@@ -16,7 +16,6 @@ class AiService {
         try {
             const url = `${this.path}/ai/recommend`;
             const result = await axios.post(url, input);
-            console.log("getRecommendations:", result);
 
             return result.data;
         } catch (err) {

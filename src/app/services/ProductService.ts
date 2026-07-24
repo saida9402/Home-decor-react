@@ -19,7 +19,6 @@ class ProductService {
                 url += `&search=${input.search}`;
 
             const result = await axios.get(url);
-            console.log("getProducts:", result);
 
             return result.data;
         } catch (err) {
@@ -33,7 +32,6 @@ class ProductService {
         try {
             const url = `${this.path}/product/${productId}`;
             const result = await axios.get(url,  { withCredentials: true });
-            console.log("getProduct:", result);
 
             return result.data;
         } catch (err) {
